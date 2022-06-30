@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# author: isegura
 from queue import Queue
 import random
 
