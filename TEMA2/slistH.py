@@ -2,9 +2,9 @@
 
 
 class SNode:
-  def __init__(self, e, next=None):
-    self.elem = e
-    self.next = next
+    def __init__(self, e: object, next_node: 'SNode' = None) -> None:
+        self.elem = e
+        self.next = next_node
 
 
 class SList:

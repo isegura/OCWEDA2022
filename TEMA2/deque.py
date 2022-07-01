@@ -2,7 +2,7 @@
 
 
 class Deque:
-    """Implementation of a double queue"""
+    """Implementation of a double queue based on a Python List"""
     def __init__(self) -> None:
         """Create an empty deque"""
         self._items = []
