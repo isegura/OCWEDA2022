@@ -81,7 +81,7 @@ class Queue:
         # increases the size of the list
         self._size += 1
 
-    def __str__(self) -> str:
+    def __str__(self):
         """Returns a string with the elements of the queue"""
         result = ''
         node_it = self._head
