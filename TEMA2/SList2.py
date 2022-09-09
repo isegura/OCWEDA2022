@@ -111,7 +111,7 @@ class SList2(SList):
             print('An empty list does not have middle!!!')
         else:
             m = len(self)//2
-            result=self.getAt(m)
+            result = self.getAt(m)
         return result
 
     def get_middle(self) -> object:
@@ -124,7 +124,7 @@ class SList2(SList):
             cont += 1
         return None
 
-    def count(self,e: object) -> int:
+    def count(self, e: object) -> int:
         result = 0
         node_it = self._head
         while node_it:
@@ -151,18 +151,18 @@ class SList2(SList):
         The method uses other methods of the class"""
         if self.is_sorted():
             if len(self) > 1:
-                i = 1
-                while i < len(self):
-                    if self.getAt(i-1) == self.getAt(i):
-                        self.removeAt(i)
+                k = 1
+                while k < len(self):
+                    if self.getAt(k-1) == self.getAt(k):
+                        self.removeAt(k)
                     else:
-                        i += 1
+                        k += 1
         else:
             print('list is not sorted!!!')
 
     def remove_duplicates_sorted(self):
         """This method removes the duplicate elements in a sorted list.
-        The method does not any method of the class SList"""
+        The method does not use any method of the class SList"""
         if self.is_sorted():
             if len(self) > 1:
                 prev = self._head
@@ -182,24 +182,106 @@ class SList2(SList):
             print('list is not sorted!!!')
 
     def remove_duplicates(self) -> None:
-            node_it=self._head
-            while node_it:
-                prev=node_it
-                nodeIt2=node_it.next
+        """This method removes the duplicate elements in a list.
+        The method does not use any method of the class SList"""
+        node_it = self._head
+        while node_it:
+            prev = node_it
+            node_it2 = node_it.next
+            e = node_it.elem
+            while node_it2:
+                if e == node_it2.elem:
+                    prev.next = node_it2.next
+                    if node_it2.next is None:
+                        self._tail = prev
+                    self._size -= 1
+                else:
+                    prev = node_it2
+                node_it2 = node_it2.next
 
-                e=node_it.elem
-                while nodeIt2:
-                    if e==nodeIt2.elem:
-                        prev.next=nodeIt2.next
-                        if nodeIt2.next==None:
-                            self._tail=prev
-                        self._size-=1
-                    else:
-                        prev=nodeIt2
+            node_it = node_it.next
 
-                    nodeIt2=nodeIt2.next
+    def swap_pairwise(self) -> None:
+        """ swaps the continues elements in the list. If the list has an odd number of elements,
+        the last element is not swapped"""
+        if len(self) > 1:
+            node1 = self._head
+            node2 = node1.next
+            while node1 and node2:
+                # swap elements
+                node1.elem, node2.elem = node2.elem, node1.elem
+                node1 = node2.next
+                if node1:
+                    node2 = node1.next
 
-                node_it=node_it.next
+    def move_last_v1(self) -> None:
+        """This method moves the last element to the front of the list. 
+         It uses other methods of the class"""
+        if len(self) > 1:
+            x = self.remove_last()
+            self.add_first(x)
+            
+    def move_last(self) -> None:
+        """This method moves the last element to the front of the list. 
+         It does not use any method of the class"""
+        if self._size == 0:
+            print('list is empty!!')
+        else:
+            next_to_last = None
+            last = self._head
+            while last != self._tail:
+                next_to_last = last
+                last = last.next
+            
+            last.next = self._head
+            self._head = last
+            
+            next_to_last.next = None
+            self._tail = next_to_last
+
+    def intersection(self, other_list: "SList2") -> "SList2":
+        """ returns a new list that is contains the elements that are in both lists"""
+        output = SList2()
+        if self.is_sorted() and other_list.is_sorted():
+            node1 = self._head
+            node2 = other_list._head
+
+            while node1:
+                while node2 and node2.elem < node1.elem:
+                    node2 = node2.next
+                if node2 is not None and node2.elem == node1.elem:
+                    output.add_last(node1.elem)
+                node1 = node1.next
+
+        return output
+
+    def segregate_odd_even(self):
+        """ updates de list to contains first the even numbers and after the odd numbers. The order of the numbers must
+        be kept"""
+        if len(self) > 1:
+            evens = SList2()
+            odds = SList2()
+            node = self._head
+            while node:
+                e = node.elem
+                if e%2 == 0:
+                    evens.add_last(e)
+                else:
+                    odds.add_last(e)
+
+                node = node.next
+
+            if evens.is_empty():
+                self._head = odds._head
+                self._tail = odds._tail
+            elif odds.is_empty():
+                self._head = evens._head
+                self._tail = evens._tail
+            else:
+                self._head = evens._head
+                evens._tail.next = odds._head
+                self._tail = odds._tail
+
 
 if __name__ == '__main__':
     # Please, uncomment the code for test each function
@@ -229,8 +311,8 @@ if __name__ == '__main__':
     print("middle: ", l1.get_middle(), "getAt(len/2):", l1.getAt(len(l1)//2))
     print("middle: ", l1.get_middle_v1(), "getAt(len/2):", l1.getAt(len(l1)//2))
 
-    assert(l1.get_middle() == l1.getAt(len(l1)//2) )
-    assert(l1.get_middle_v1() == l1.getAt(len(l1)//2) )
+    assert(l1.get_middle() == l1.getAt(len(l1)//2))
+    assert(l1.get_middle_v1() == l1.getAt(len(l1)//2))
 
     l2 = SList2()
     print("middle: ", l2.get_middle())
@@ -264,8 +346,45 @@ if __name__ == '__main__':
     l2.add_last(10)
     l2.add_last(11)
     l2.add_last(13)
+
+    print("before remove duplicates in: ", l2)
     # Please, uncomment just one call
-    # l2.remove_duplicates_sorted_v1()
-    l2.remove_duplicates_sorted()
+    l2.remove_duplicates_sorted_v1()
+    # l2.remove_duplicates_sorted()
     print("remove duplicates in : ", l2)
 
+    print("before remove duplicates in: ", l1)
+    l1.remove_duplicates()
+    print("remove duplicates in : ", l1)
+
+    print("before swap_pairwise in: ", l1)
+    l1.swap_pairwise()
+    print("after swap_pairwise in : ", l1)
+
+    print("before swap_pairwise in: ", l2)
+    l2.swap_pairwise()
+    print("after swap_pairwise in : ", l2)
+
+    print("before move_last : ", l2)
+    # Please, uncomment just one call
+    l2.move_last()
+    # l2.move_last_v1()
+    print("after move_last in : ", l2)
+
+    l3 = SList2()
+    for i in [2, 2, 4, 6, 8, 9]:
+        l3.add_last(i)
+
+    l4 = SList2()
+    for i in [1, 2, 3, 3, 4, 8, 10]:
+        l4.add_last(i)
+
+    print("{}.intersection({})={}".format(l3, l4, l3.intersection(l4)))
+
+    print("before segregate_odd_even:",l2)
+    l2.segregate_odd_even()
+    print("after segregate_odd_even:",l2)
+    print()
+    print("before segregate_odd_even:",l4)
+    l4.segregate_odd_even()
+    print("after segregate_odd_even:",l4)
