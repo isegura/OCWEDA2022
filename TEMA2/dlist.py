@@ -192,6 +192,14 @@ class DList:
         
         return result
 
+    @property
+    def head(self):
+        return self._head
+
+    @property
+    def tail(self):
+        return self._tail
+
 
 if __name__ == '__main__':
     mylist = DList()
