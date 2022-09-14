@@ -62,26 +62,30 @@ def sum_list(a: list) -> int:
         return a.pop(0) + sum_list(a)
 
 
-def sum_list2(a: list) -> list:
-    """In this solution, it is not allowed to update the input list, but you can use
-    slice"""
-
-    if a is None or not isinstance(data, list):
+def sum_list(a: list) -> list:
+    """Returns the sum of the elements in the list.
+    In this solution, it is not allowed to update the input list,
+    but you can use slice"""
+    if a is None or not isinstance(a, list):
         return None
 
     if len(a) == 0:
         return 0
     else:
-        return a[0] + sum_list2(a[1:])
+        return a[0] + sum_list(a[1:])
 
 
-def sum_list3(data):
-    return _sum_list(data, 0)
+def sum_list3(a):
+    """returns the sum of the elements in a.
+    It does not modify the list.
+    It does not use slicing"""
+    if a is None or not isinstance(a, list):
+        return None
+    return _sum_list(a, 0)
 
 
 def _sum_list(a: list, index: int) -> int:
-    if a is None or not isinstance(a, list):
-        return None
+    """auxiliary function that """
     if index >= len(a):
         return None
     elif index == len(a) - 1:
