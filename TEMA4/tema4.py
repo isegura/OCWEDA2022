@@ -3,6 +3,10 @@ import math
 import random
 import string  # Python module for strings.
 import sys
+import os # Python module to work with folders and files
+
+import unicodedata
+
 
 lowercase_letters = string.ascii_lowercase  # A constant containing lowercase letters
 
@@ -395,6 +399,48 @@ def fibo2(n: int) -> (int, int):
         return b, a + b
 
 
+def disk_usage(dir_path: str) -> int:
+    size_total = 0
+    for roots, directories, files in os.walk(dir_path):
+        for name_file in files:
+            o_file = os.path.join(dir_path, name_file)
+            # print(o_file)
+            if os.path.exists(o_file):
+                size_total += os.path.getsize(o_file)
+
+    return size_total
+
+def russian_multiplication(a: int, b: int) -> int:
+    """returns a*b by using the method of russian multiplication.
+    https://www.youtube.com/watch?v=GQhACsR4Sp0
+    a, b > 0, a > b
+    """
+    if a < 0 or b < 0 or not isinstance(a, int) or not isinstance(b, int):
+        return None
+    # we halve a, we will double b
+
+    if a == 1:
+        return b
+
+    if a % 2 == 0:
+        return russian_multiplication(a // 2, b * 2)
+    else:  # a is odd
+        return b + russian_multiplication(a // 2, b * 2)
+
+
+def num_vowels(input_word: str) -> int:
+    """ returns the numbers of vowels in word"""
+    if input_word is None or len(input_word) == 0:
+        return 0
+
+    first_char = input_word[0].lower()
+
+    if first_char in ['a', 'e', 'i', 'o', 'u']:
+        return 1 + num_vowels(input_word[1:])
+    else:
+        return num_vowels(input_word[1:])
+
+
 if __name__ == '__main__':
 
     '''
@@ -592,3 +638,28 @@ if __name__ == '__main__':
     digit_map = list(map(int, str(abs(n))))
     assert ( result == sum(digit_map) )
     '''
+
+    '''
+    # Test disk_usage. Maybe you should change the paths for your operative system
+    current_path = os.path.abspath(os.getcwd())
+    result_size = disk_usage(current_path)
+    print('disk_usage({}) = {} bytes'.format(current_path, result_size))
+    current_path= '/Users/isegura/Desktop/'
+    result_size = disk_usage(current_path)
+    print('disk_usage({}) = {} bytes'.format(current_path, result_size))
+    '''
+
+    '''
+    # Test  russian_multiplication
+    a = random.randint(0, 1000)
+    b = random.randint(0, 1000)
+    result = russian_multiplication(a, b)
+    print('russian_multiplication({}, {}) = {}'.format(a, b, result))
+    assert (a*b == result)
+    '''
+
+    # Test num_vowels
+    for word in [None, 'a', 'ab', 'bb', 'aA,b', 'María']:
+        result = num_vowels(word)
+        print("num_vowels({}) = {}".format(word,result))
+
