@@ -3,10 +3,7 @@ import math
 import random
 import string  # Python module for strings.
 import sys
-import os # Python module to work with folders and files
-
-import unicodedata
-
+import os  # Python module to work with folders and files
 
 lowercase_letters = string.ascii_lowercase  # A constant containing lowercase letters
 
@@ -60,11 +57,11 @@ def power(a: int, n: int) -> int:
 def gcd(a: int, b: int) -> int:
     """returns the greatest common divisor of a and b"""
     if not isinstance(a, int) or a < 0 or not isinstance(a, int) or b < 0:
-        return None # a, b must be >=0
+        return None  # a, b must be >=0
     # suppose a > b, if a < b, we change
     if a < b:
         a, b = b, a
-    return _gcd(a,b)
+    return _gcd(a, b)
 
 
 def _gcd(a: int, b: int) -> int:
@@ -72,6 +69,7 @@ def _gcd(a: int, b: int) -> int:
         return a
     else:
         return gcd(b, a % b)
+
 
 def sum_list0(a: list) -> list:
     """Returns the sum of the elements in the list.
@@ -97,13 +95,13 @@ def sum_list1(a: list) -> int:
         return a.pop(0) + sum_list1(a)
 
 
-def sum_list2(a):
-    """returns the sum of the elements in a.
+def sum_list2(input_list: list) -> int:
+    """returns the sum of the elements in input_list.
     It does not modify the list.
     It does not use slicing"""
-    if a is None or not isinstance(a, list):
+    if input_list is None or not isinstance(input_list, list):
         return None
-    return _sum_list(a, 0)
+    return _sum_list(input_list, 0)
 
 
 def _sum_list(a: list, index: int) -> int:
@@ -114,7 +112,6 @@ def _sum_list(a: list, index: int) -> int:
         return a[index]
     else:
         return a[index] + _sum_list(a, index + 1)
-
 
 
 def find_max1(a: list) -> int:
@@ -156,173 +153,174 @@ def _find_max(a: list, index: int) -> int:
         return max(a[index], _find_max(a, index + 1))
 
 
-def is_sorted1(a: list) -> bool:
-    """checks if a is sorted. It uses slicing"""
-    if a is None or not isinstance(a, list):
+def is_sorted1(input_list: list) -> bool:
+    """checks if input_list is sorted. It uses slicing"""
+    if input_list is None or not isinstance(input_list, list):
         return False
-    if len(a) <= 1:
+    if len(input_list) <= 1:
         return True
     else:
-        return a[0] <= a[1] and is_sorted1(a[1:])
+        return input_list[0] <= input_list[1] and is_sorted1(input_list[1:])
 
 
-def is_sorted2(a: list) -> bool:
-    """ checks if a is sorted. It does not use slicing"""
-    if a is None or not isinstance(a, list):
+def is_sorted2(input_list: list) -> bool:
+    """ checks if input_list is sorted. It does not use slicing"""
+    if input_list is None or not isinstance(input_list, list):
         return False
-    return _is_sorted(a, 0)
+    return _is_sorted(input_list, 0)
 
 
-def _is_sorted(a: list, index: int) -> bool:
-    if index >= len(a) - 1:
+def _is_sorted(input_list: list, index: int) -> bool:
+    if index >= len(input_list) - 1:
         return True
     else:
-        return a[index] <= a[index + 1] and _is_sorted(a, index + 1)
+        return input_list[index] <= input_list[index + 1] and _is_sorted(input_list, index + 1)
 
 
-def is_palindrome1(word: str) -> bool:
+def is_palindrome1(input_word: str) -> bool:
     """recursive function that checks if words is palindrome or not.
     In this version, we can use slicing"""
-    if word is None or not isinstance(word, str):
+    if input_word is None or not isinstance(input_word, str):
         # we consider that None is not palindrome
         return False
 
-    if len(word) <= 1:
+    if len(input_word) <= 1:
         return True
     else:
-        return word[0] == word[len(word) - 1] and is_palindrome1(word[1:-1])
+        return input_word[0] == input_word[len(input_word) - 1] and is_palindrome1(input_word[1:-1])
 
 
-def is_palindrome2(word: str) -> bool:
+def is_palindrome2(input_word: str) -> bool:
     """recursive function that checks if words is palindrome or not.
     YOu cannot use slicing"""
-    if word is None or not isinstance(word, str):
+    if input_word is None or not isinstance(input_word, str):
         return False
-    return _is_palindrome(word, 0)
+    return _is_palindrome(input_word, 0)
 
 
-def _is_palindrome(word: str, index: int) -> bool:
-    if index >= len(word) // 2:
+def _is_palindrome(input_word: str, index: int) -> bool:
+    if index >= len(input_word) // 2:
         return True
     else:
-        return word[index] == word[len(word) - (index + 1)] and _is_palindrome(word, index + 1)
+        return input_word[index] == input_word[len(input_word) - (index + 1)] and _is_palindrome(input_word, index + 1)
 
 
-def binary_search1(a: list, x: int) -> bool:
+def binary_search1(input_list: list, x: int) -> bool:
     """returns True if x exist into data, False eoc. It uses slicing"""
-    if a is None or not isinstance(a, list) or not isinstance(x, int):
+    if input_list is None or not isinstance(input_list, list) or not isinstance(x, int):
         return False
 
-    if not is_sorted2(a):
+    if not is_sorted2(input_list):
         return False
 
-    if len(a) == 0:
+    if len(input_list) == 0:
         return False
 
-    m = len(a) // 2
-    if a[m] == x:
+    m = len(input_list) // 2
+    if input_list[m] == x:
         return True
-    elif x < a[m]:
+    elif x < input_list[m]:
         # we must search at the first half of the array
-        return binary_search2(a[0:m], x)
+        return binary_search2(input_list[0:m], x)
     else:  # x>data[m]
         # we must search from m+1 to the end, always after than m (we already know that data[m]!=x)
-        return binary_search2(a[m + 1:], x)
+        return binary_search2(input_list[m + 1:], x)
 
 
-def binary_search2(a: list, x: int) -> bool:
-    """returns the index of x in a (a is sorted).
+def binary_search2(input_list: list, x: int) -> bool:
+    """returns the index of x in input_list (which must be sorted)
     It does not use slicing"""
-    if a is None or not isinstance(a, list) or not isinstance(x, int):
+    if input_list is None or not isinstance(input_list, list) or not isinstance(x, int):
         return False
 
-    if not is_sorted2(a):
+    if not is_sorted2(input_list):
         return False
 
-    return _binary_search(a, x, 0, len(a) - 1)
+    return _binary_search(input_list, x, 0, len(input_list) - 1)
 
 
-def _binary_search(a: list, x: int, start: int, end: int) -> bool:
+def _binary_search(input_list: list, x: int, start: int, end: int) -> bool:
     """returns True if x exist into data, False eoc.
     O(log n), O"""
     if start <= end:
         m = (start + end) // 2
-        if x == a[m]:
+        if x == input_list[m]:
             return True
-        elif x < a[m]:
-            return _binary_search(a, x, start, m - 1)
+        elif x < input_list[m]:
+            return _binary_search(input_list, x, start, m - 1)
         else:
-            return _binary_search(a, x, m + 1, end)
+            return _binary_search(input_list, x, m + 1, end)
     else:
         return False
 
 
-def binary_search_index(a: list, x: int) -> int:
-    """returns the index of x in a. a must be sorted.
+def binary_search_index(input_list: list, x: int) -> int:
+    """returns the index of x in input_list, which must be sorted.
     It does not use slicing"""
-    if a is None or not isinstance(a, list) or not isinstance(x, int):
+    if input_list is None or not isinstance(input_list, list) or not isinstance(x, int):
         return -1
 
-    if not is_sorted2(a):
+    if not is_sorted2(input_list):
         return -1
 
-    return _binary_search_index(a, x, 0, len(a) - 1)
+    return _binary_search_index(input_list, x, 0, len(input_list) - 1)
 
 
-def _binary_search_index(a: list, x: int, start: int, end: int) -> int:
-    """returns True if x exist into data, False eoc.
+def _binary_search_index(input_list: list, x: int, start: int, end: int) -> int:
+    """returns True if x exist in input_list, False eoc.
     O(log n), O"""
 
     if start <= end:
         m = (start + end) // 2
-        if x == a[m]:
+        if x == input_list[m]:
             return m
-        elif x < a[m]:
-            return _binary_search_index(a, x, start, m - 1)
+        elif x < input_list[m]:
+            return _binary_search_index(input_list, x, start, m - 1)
         else:
-            return _binary_search_index(a, x, m + 1, end)
+            return _binary_search_index(input_list, x, m + 1, end)
     else:
         return -1
 
 
-def reverse1(a: list) -> None:
-    """ The list a is modified by its reverse list.
+def reverse1(input_list: list) -> None:
+    """ The input_list is modified by its reverse list.
     The function does not return anything.
     It is allowed to update the list
     """
-    if a is None or not isinstance(a, list):
+    if input_list is None or not isinstance(input_list, list):
         return
-    if len(a) >= 1:
-        aux = a.pop(0)
-        reverse1(a)
-        a.append(aux)
+    if len(input_list) >= 1:
+        aux = input_list.pop(0)
+        reverse1(input_list)
+        input_list.append(aux)
 
-def reverse2(a: list) -> None:
-    """ The list a is modified by its reverse list.
+
+def reverse2(input_list: list) -> None:
+    """ input_list is modified by its reverse list.
     The function does not return anything.
     It is not allowed to update the list
     """
-    if a is None or not isinstance(a, list):
+    if input_list is None or not isinstance(input_list, list):
         return
-    _reverse(a, 0)
+    _reverse(input_list, 0)
 
 
-def _reverse(a: list, index: int) -> None:
-    if index < len(a) // 2:
-        a[index], a[len(a) - (index + 1)] = a[len(a) - (index + 1)], a[index]
-        _reverse(a, index + 1)
+def _reverse(input_list: list, index: int) -> None:
+    if index < len(input_list) // 2:
+        input_list[index], input_list[len(input_list) - (index + 1)] = input_list[len(input_list) - (index + 1)], input_list[index]
+        _reverse(input_list, index + 1)
 
 
-def binary_sum(a: list) -> int:
-    """returns the sum of the elements in a by using
+def binary_sum(input_list: list) -> int:
+    """returns the sum of the elements in input_list by using
     binary recursion"""
-    if a is None or not isinstance(a, list):
+    if input_list is None or not isinstance(input_list, list):
         return None
-    if len(a) == 0:
+    if len(input_list) == 0:
         return 0
     else:
-        m = len(a) // 2
-        return binary_sum(a[0:m]) + a[m] + binary_sum(a[m+1:])
+        m = len(input_list) // 2
+        return binary_sum(input_list[0:m]) + input_list[m] + binary_sum(input_list[m + 1:])
 
 
 def count_digits1(n: int) -> int:
@@ -393,7 +391,7 @@ def fibo2(n: int) -> (int, int):
         return 0, n
     else:
         # a is the fibonacci number for n-2, b is the Fibonacci number for n-1
-        a, b = fibo2(n-1)
+        a, b = fibo2(n - 1)
         # Now, we have to return the Fibonacci number for n-1, and the Fibonacci number for n,
         # which is a + b
         return b, a + b
@@ -409,6 +407,7 @@ def disk_usage(dir_path: str) -> int:
                 size_total += os.path.getsize(o_file)
 
     return size_total
+
 
 def russian_multiplication(a: int, b: int) -> int:
     """returns a*b by using the method of russian multiplication.
@@ -661,5 +660,4 @@ if __name__ == '__main__':
     # Test num_vowels
     for word in [None, 'a', 'ab', 'bb', 'aA,b', 'María']:
         result = num_vowels(word)
-        print("num_vowels({}) = {}".format(word,result))
-
+        print("num_vowels({}) = {}".format(word, result))
