@@ -12,6 +12,7 @@ class BinarySearchTree(BinaryTree):
 
     def _search(self, node: BinaryNode, elem: object) -> BinaryNode:
         """Recursive function"""
+        
         if node is None or node.elem == elem:
             return node
         elif elem < node.elem:

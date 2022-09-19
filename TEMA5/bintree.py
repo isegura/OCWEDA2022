@@ -6,15 +6,17 @@ from TEMA2.slistHT import SList
 
 
 class BinaryNode:
-
-    def __init__(self, elem: object, node_left: 'BinaryNode' = None, node_right: 'BinaryNode' = None) -> None:
+    def __init__(self, elem: object,
+                 node_left: 'BinaryNode' = None,
+                 node_right: 'BinaryNode' = None) -> None:
         self.elem = elem
         self.left = node_left
         self.right = node_right
 
     def __eq__(self, other: 'BinaryNode') -> bool:
         """checks if two nodes (subtrees) are equal o not"""
-        return other is not None and self.elem == other.elem and self.left == other.left and self.right == other.right
+        return other is not None and self.elem == other.elem and \
+               self.left == other.left and self.right == other.right
 
     def __str__(self) -> str:
         return str(self.elem)
