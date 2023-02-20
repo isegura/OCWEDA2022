@@ -13,7 +13,7 @@ class SList2(SList):
         else:
             print(e, ' does not exist!!!')
     
-    def remove(self, e: object) -> None:
+    def remove2(self, e: object) -> None:
         """remove the first occurrence of e in the list. If e does not exist, it prints a message. 
         This solution does not  use any method of the SList class"""
         prev = None
@@ -42,6 +42,28 @@ class SList2(SList):
                 
         if not found:
             print(e, ' does not exist!!!')
+
+    def remove2(self, e: object) -> None:
+        """a different version of remove"""
+        previous = None
+        node_it = self._head
+        while node_it is not None and node_it.elem != e:
+            mode_it = node_it.next
+
+        if node_it is None:
+            print(e, ' does not exist')
+        else:
+            #node_it is the node to remove
+            if previous is None:
+                self._head = self._head.next
+                if self._head is None:
+                    self._tail = None
+            else:
+                previous.next = node_it.next
+                if node_it is self._tail:
+                    self._tail = previous
+
+            self._size -= 1
 
     def remove_all_byindex(self, e: object) -> None:
         """This solution is based on the functions index and removeAt"""
