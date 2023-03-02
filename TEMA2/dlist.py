@@ -200,8 +200,42 @@ class DList:
     def tail(self):
         return self._tail
 
+    def __eq__(self, other: 'DList') -> bool:
+        """returns True if self and other have the same elements,
+        eoc False"""
+        if other is None or len(self) != len(other):
+            return False
+
+        node = self._head
+        node_o = other._head # node to traverse the list other
+        while node:
+            if node.elem != node_o.elem:
+                return False
+            node = node.next
+            node_o = node_o.next
+        return True
+
 
 if __name__ == '__main__':
+    l1 = DList()
+    l2 = DList()
+    for x in [3, 5, 6, 2]:
+        l1.add_last(x)
+        l2.add_last(x)
+    print("{} and {} are equals?: {}".format(l1, l2, l1 == l2))
+    l2.remove_last()
+    print("{} and {} are equals?: {}".format(l1, l2, l1 == l2))
+    l2.add_last(5)
+    print("{} and {} are equals?: {}".format(l1, l2, l1 == l2))
+
+    l3 = DList()
+    print("{} and {} are equals?: {}".format(l1, l3, l1 == l3))
+    l3.add_last(5)
+    print("{} and {} are equals?: {}".format(l1, l3, l1 == l3))
+    print("{} and {} are equals?: {}".format(l1, None, l1 == None))
+
+    '''
+
     mylist = DList()
     for i in range(5):
         mylist.add_last(random.randint(-5, 5))
@@ -260,3 +294,4 @@ if __name__ == '__main__':
     print(' removeAt(0)={}, l={}, len={}'.format(mylist.removeAt(0), mylist, len(mylist)))
     print(' removeAt(len(l)-1)={}, l={}, len={}'.format(mylist.removeAt(len(mylist) - 1), mylist, len(mylist)))
     print(' removeAt(len(l)//2+1)={}, l={}, len={}'.format(mylist.removeAt(len(mylist) // 2 + 1), mylist, len(mylist)))
+'''

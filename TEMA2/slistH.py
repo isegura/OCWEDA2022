@@ -187,9 +187,42 @@ class SList:
         
         return result
 
+    def __eq__(self, other: 'SList') -> bool:
+        """returns True if self and other have the same elements,
+        eoc False"""
+        if other is None or len(self) != len(other):
+            return False
 
-if __name__=='__main__':
+        node = self._head
+        node_o = other._head # node to traverse the list other
+        while node:
+            if node.elem != node_o.elem:
+                return False
+            node = node.next
+            node_o = node_o.next
+        return True
 
+
+if __name__ == '__main__':
+
+    l1 = SList()
+    l2 = SList()
+    for x in [3, 5, 6, 2]:
+        l1.add_last(x)
+        l2.add_last(x)
+    print("{} and {} are equals?: {}".format(l1, l2, l1 == l2))
+    l2.remove_last()
+    print("{} and {} are equals?: {}".format(l1, l2, l1 == l2))
+    l2.add_last(5)
+    print("{} and {} are equals?: {}".format(l1, l2, l1 == l2))
+
+    l3 = SList()
+    print("{} and {} are equals?: {}".format(l1, l3, l1 == l3))
+    l3.add_last(5)
+    print("{} and {} are equals?: {}".format(l1, l3, l1 == l3))
+    print("{} and {} are equals?: {}".format(l1, None, l1 == None))
+
+    '''
     l = SList()
     print("list:", str(l))
     print("len:", len(l))
@@ -248,3 +281,4 @@ if __name__=='__main__':
 
     while not l.is_empty():
         print("after removeLast():{}, {}".format(l.remove_last(), l))
+    '''
