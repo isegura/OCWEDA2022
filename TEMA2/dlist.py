@@ -3,7 +3,7 @@ import random
 
 
 class DNode:
-    def __init__(self, e: object, next_node: 'DNode' = None, prev_node: 'DNode' = None):
+    def __init__(self, e: object, prev_node: 'DNode' = None, next_node: 'DNode' = None):
         self.elem = e
         self.next = next_node
         self.prev = prev_node
@@ -47,7 +47,7 @@ class DList:
     def add_first(self, e: object) -> None:
         """Adds a new element, e, at the beginning of the list"""
         # create the new node
-        new_node = DNode(e, self._head)
+        new_node = DNode(e)
         # the new node must point to the current head
         if self.is_empty():
             self._tail = new_node

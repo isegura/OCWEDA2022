@@ -198,7 +198,7 @@ class SList:
             return False
 
         node = self._head
-        node_o = other._head # node to traverse the list other
+        node_o = other._head  # node to traverse the list other
         while node:
             if node.elem != node_o.elem:
                 return False
