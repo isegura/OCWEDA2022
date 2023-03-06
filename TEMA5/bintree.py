@@ -137,9 +137,9 @@ class BinaryTree:
     def _inorder_list(self, node: BinaryNode, in_list: list) -> None:
         """populates in_list with the inorder traversal of the subtree node"""
         if node is not None:
-            self._postorder_list(node.left, in_list)
+            self._inorder_list(node.left, in_list)
             in_list.append(node.elem)
-            self._postorder_list(node.right, in_list)
+            self._inorder_list(node.right, in_list)
 
     def level_order(self) -> None:
         """prints the level order of the tree. O(n)"""
