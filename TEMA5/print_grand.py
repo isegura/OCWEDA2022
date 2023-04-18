@@ -1,12 +1,12 @@
 from bst import BinarySearchTree
 from bintree import BinaryNode
 
-
 class MyBST(BinarySearchTree):
     def print_grandchild_10(self) -> None:
         self._print_grandchild_10(self._root, None, None)
 
-    def _print_grandchild_10(self, node: BinaryNode, parent: BinaryNode,
+    def _print_grandchild_10(self, node: BinaryNode,
+                             parent: BinaryNode,
                              grand: BinaryNode) -> None:
         if node is None:
             return
