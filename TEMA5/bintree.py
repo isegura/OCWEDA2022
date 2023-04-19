@@ -219,6 +219,9 @@ class BinaryTree:
             print(prefix + "|-- " + str(node.elem))
             self._draw(prefix + "     ", node.left, True)
 
+    @property
+    def root(self):
+        return self._root
 
 if __name__ == '__main__':
     tree = BinaryTree()
