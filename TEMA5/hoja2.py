@@ -2,6 +2,7 @@ from bst import BinarySearchTree
 from bintree import BinaryNode
 import bintree as bin
 
+
 def get_smallest_ite(tree: BinarySearchTree) -> int:
     """returns the smallest element in input_tree. O(log n)"""
     result = None
@@ -161,6 +162,98 @@ def _is_height_balanced(node: BinaryNode) -> bool:
 
     return True
 
+
+def same_shape(tree1: BinarySearchTree, tree2: BinarySearchTree) -> bool:
+    result = False
+    if tree1 is not None and tree2 is not None:
+        result = _same_shape(tree1.root, tree2.root)
+    return result
+
+def _same_shape(node1: BinaryNode, node2: BinaryNode) -> bool:
+    result = False
+    if node1 is None and node2 is None:
+        result = True
+    elif node1 is not None and node2 is not None:
+        result = _same_shape(node1.left, node2.left) and \
+                 _same_shape(node1.right, node2.right)
+    return result
+
+def get_non_leaves(tree) -> list:
+    """returns a list with the elements of the nodes that are not leaves.
+    Complexity O(n).
+    The list has to be sorted in ascending order."""
+    result = []
+    _get_non_leaves(tree.root, result)
+    return result
+
+def _get_non_leaves(node: BinaryNode, lst_nodes: list) -> None:
+    """ Complexity: O(n) """
+    if node:
+        _get_non_leaves(node.right, lst_nodes)
+        if node.left or node.right:
+            lst_nodes.append(node.elem)
+        _get_non_leaves(node.left, lst_nodes)
+
+def is_zig_zag(tree: BinarySearchTree) -> bool:
+    """returns True if the input_tree is a ziz-zag-shaped input_tree, False eoc.
+    Worst case: The input_tree is zig-zag, we have to visit all nodes, O(n)
+    Best case: the input_tree is empty or the root has two children"""
+
+    if tree.root is None or tree.size() <= 2:
+        return False
+
+    return _is_zig_zag(tree.root, None)
+
+def _num_children(node: BinaryNode) -> int:
+    """returns the number of children of node.
+    O(1)"""
+    count = 0
+    if node:
+        if node.left:
+            count += 1
+        if node.right:
+            count += 1
+    return count
+
+def _is_zig_zag(node: BinaryNode, origin: str) -> bool:
+    """returns True if the node has a zig-zag-shape, False eoc"""
+    # print(node, origin)
+    if _num_children(node) == 0:
+        return True
+
+    if _num_children(node) == 2:
+        return False
+
+    # node only has left or right
+    if node.left:
+        return _is_zig_zag(node.left, "left") if origin != "left" else False
+
+    # then, node has a right child
+    return _is_zig_zag(node.right, "right") if origin != "right" else False
+
+def is_left_odd_right_even(tree: BinarySearchTree) -> bool:
+    """checks that all nodes (non-leaves) have a left child with an odd value and a right child with an even value.
+    Wort case, the input_tree is left-odd-right-even, you have to visit all nodes, O(n)
+    Best case, the input_tree is empty or has just a child, O(1)"""
+    if _num_children(tree.root) <= 1:
+        return False
+
+    return _is_left_odd_right_even(tree.root)
+
+def _is_left_odd_right_even(node: BinaryNode) -> bool:
+    """checks that all nodes (non-leaves) have a left child with an odd value and a right child with an even value"""
+    if _num_children(node) == 0:  # If the node is a leaf, we return True
+        return True
+    if _num_children(node) == 1:  # If the node is a leaf, we return False
+        return False
+    # node has two children
+    # the left elem is even or the right elem is odd
+    if node.left.elem % 2 == 0 or node.right.elem % 2 != 0:
+        return False
+    # eoc, we have to check node.left and node.right
+    return _is_left_odd_right_even(node.left) and _is_left_odd_right_even(node.right)
+
+
 def array2bst(input_list: list) -> BinarySearchTree:
     """ gets a sorted list and creates a balanced bst"""
     result = BinarySearchTree()
@@ -194,13 +287,16 @@ class BSTRemove2(BinarySearchTree):
 
 
 if __name__ == "__main__":
-    """
+
     input_tree = BinarySearchTree()
     values = [25, 20, 36, 10, 22, 30, 40, 5, 12, 28, 38, 48]
     for x in values:
         input_tree.insert(x)
     input_tree.draw()
+    print("get_non_leaves: ", get_non_leaves(input_tree))
+    print("is_zig_zag: ", is_zig_zag(input_tree))
 
+    """
     
     print("Smallest element: ", get_smallest_ite(input_tree))
     assert get_smallest_ite(input_tree) == min(values)
@@ -235,6 +331,7 @@ if __name__ == "__main__":
     print()
     """
 
+    """
     input_tree = BSTRemove2()
     # input_tree = BinarySearchTree()
     for x in [5, 10, 15, 20, 23, 22, 24, 3, 7]:
@@ -321,3 +418,29 @@ if __name__ == "__main__":
     input_tree.draw()
     print("is_size_balanced:", is_size_balanced(input_tree))
     print("is_height_balanced:", is_height_balanced(input_tree))
+"""
+    """
+    data1 = [20, 10, 30, 8]
+    tree1 = BinarySearchTree()
+    for x in data1:
+        tree1.insert(x)
+
+    data2 = [80, 60, 90, 5]
+    tree2 = BinarySearchTree()
+    for x in data2:
+        tree2.insert(x)
+    tree1.draw()
+    tree2.draw()
+    print("same_shape:", same_shape(tree1, tree2))
+    print("same_shape:",same_shape(tree1, BinarySearchTree()))
+    print("same_shape:",same_shape(BinarySearchTree(), tree1))
+    print("same_shape:",same_shape(None, tree1))
+    tree1.draw()
+    print("get_non_leaves: ", get_non_leaves(tree1))
+    """
+    input_tree = BinarySearchTree()
+    for x in [10, 20, 15, 18, 17, 19]:
+        input_tree.insert(x)
+        input_tree.draw()
+        print("is_zig_zag:", is_zig_zag(input_tree))
+
