@@ -33,7 +33,7 @@ class AVLTree(BinarySearchTree):
         return node
 
     def _rebalance(self, node: BinaryNode) -> BinaryNode:
-        # O(n)
+        # O(logn)
         if abs(self.balance_factor(node)) <= 1:
             return node  # the node is already balanced, we do nothing
 
