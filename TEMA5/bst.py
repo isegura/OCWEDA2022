@@ -3,7 +3,7 @@
 from bintree import BinaryNode
 from bintree import BinaryTree
 
-
+"""Auxiliary function"""
 def _search(node: BinaryNode, elem: object) -> BinaryNode:
     """recursive function to search elem in the subtree node.
     Returns the node if elem exists, None eoc"""
@@ -30,18 +30,14 @@ def _insert(node: BinaryNode, elem: object) -> BinaryNode:
         node.right = _insert(node.right, elem)
     return node
 
-
 def _minimum_node(node: BinaryNode) -> BinaryNode:
-        """returns the  node with the smallest elem in the subtree node.
-        This is the node that is furthest to the left"""
-        if node is None:
-            return node
-
-        min_node = node
+    """returns the  node with the smallest elem in the subtree node.
+    This is the node that is furthest to the left"""
+    min_node = node
+    if min_node is not None:
         while min_node.left is not None:
             min_node = min_node.left
-        return min_node
-
+    return min_node
 
 def _remove(node: BinaryNode, elem: object) -> BinaryNode:
     """It recursively searches the node. When the node is
@@ -68,7 +64,7 @@ def _remove(node: BinaryNode, elem: object) -> BinaryNode:
             # now, we have to remove successor from the right child
             node.right = _remove(node.right, successor.elem)
 
-        return node
+    return node
 
 
 class BinarySearchTree(BinaryTree):
@@ -104,7 +100,7 @@ class BinarySearchTree(BinaryTree):
     def insert_it(self, elem: object) -> None:
         """iterative version of insert"""
         if self._root is None:
-            self._root = BinaryNode(elem)  # if tree is empty, new node will be the root
+            self._root = BinaryNode(elem)  # if input_tree is empty, new node will be the root
             return  # we can leave!!!
 
         node = self._root  # to search the place
@@ -130,113 +126,131 @@ class BinarySearchTree(BinaryTree):
 
 
 if __name__ == "__main__":
+    """
     tree1 = BinarySearchTree()
     input_list = [50, 55, 54, 20, 60, 15, 18, 5, 25, 24, 75, 80]
     for x in input_list:
         tree1.insert(x)
-        # you can see the tree after each insertion
+        # you can see the input_tree after each insertion
         # print('after insert: ', x)
         # tree1.draw()
 
-    # show the resulting tree
+    # show the resulting input_tree
     tree1.draw()
-    """
+    
     # Test insert_iterative
     tree2 = BinarySearchTree()
     for x in input_list:
         tree2.insert_it(x)
-        # you can see the tree after each insertion
+        # you can see the input_tree after each insertion
         # print('after insert: ', x)
         # tree2.draw()
 
-    # show the resulting tree
+    # show the resulting input_tree
     tree2.draw()
 
     # both trees should be equal
     assert(tree1 == tree2)
 """
-    # Test remove
-    print("before remove 80 (a leaf)")
-    tree1.draw()
-
-    tree1.remove(80)
-    print("before remove 80 (a leaf)")
-
-    tree1.draw()
-    print()
-
     """
-    tree = BinarySearchTree()
-    for x in [18, 11, 23, 5, 15, 20, 24, 9, 15, 22, 21, 6, 8, 7]:
-        tree.insert(x)
-    tree.draw()
-    print('size:', tree.size())
-    print('height:', tree.height())
+    input_tree = BinarySearchTree()
+    for x in [18, 11, 23, 5, 15, 20, 24, 9, 22, 21, 6, 8, 7]:
+        input_tree.insert(x)
+    input_tree.draw()
+    print('size:', input_tree.size())
+    print('height:', input_tree.height())
 
-    tree.remove(18)
+    input_tree.remove(18)
     print("after remove 18 (root), replaced with its successor 20")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(7)
+    input_tree.remove(7)
     print("after remove 7 (a leaf)")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(8)
+    input_tree.remove(8)
     print("after remove 8 (a leaf)")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(5)
+    input_tree.remove(5)
     print("after remove 5 (only a child), replaced with its child: 9")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(9)
+    input_tree.remove(9)
     print("after remove 9 (only a child), replaced with its left child: 6")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(11)
+    input_tree.remove(11)
     print("after remove 11 (two children), replaced with its successor: 15")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(20)
+    input_tree.remove(20)
     print("after remove 20 (root), two children, replaced with its successor: 21")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(15)
+    input_tree.remove(15)
     print("after remove 15 (only left child) -> 6")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(6)
+    input_tree.remove(6)
     print("after remove 6 (a leaf)")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(8)
+    input_tree.remove(8)
     print("after remove 8 (does not exist)")
-    tree.draw()
+    input_tree.draw()
 
-    tree.remove(24)
+    input_tree.remove(24)
     print("after remove 24 (a leaf)")
-    tree.draw()
+    input_tree.draw()
     print()
+    """
+    input_tree = BinarySearchTree()
+    for x in [5, 10, 15, 20, 23, 22, 24, 3, 7]:
+        input_tree.insert(x)
+    input_tree.draw()
 
-    for x in [5, 10, 15, 20]:
-        tree.insert(x)
-    print("after insert 5,10,15,20")
-    tree.draw()
+    input_tree.remove(24)
+    print("after remove 24, a leaf")
+    input_tree.draw()
 
-    tree.remove(23)
-    print("after remove 23, only a left child -> 22")
-    tree.draw()
+    input_tree.remove(23)
+    print("after remove 23 (only has a left child)")
+    input_tree.draw()
 
-    # remove a root, with only the left child
-    tree.remove(22)
+    input_tree.remove(20)
+    print("after remove 20 (only has a right child)")
+    input_tree.draw()
+
+    input_tree.remove(22)
     print("after remove 22 (a leaf)")
-    tree.draw()
-    # remove a root, with only the right child
-    print("after remove 5 (only a right child) ->10")
-    tree.remove(5)
-    tree.draw()
+    input_tree.draw()
 
-    print("after remove 21 (root with only a left child) -> 10")
-    tree.remove(21)
-    tree.draw()
-"""
+    input_tree.remove(10)
+    print("after remove 10 (two children)")
+    input_tree.draw()
+
+    input_tree.remove(5)
+    print("after remove 5 (root with two children)")
+    input_tree.draw()
+
+    for x in [11, 10, 30]:
+        input_tree.insert(x)
+    print('after insert [11, 10, 30]')
+    input_tree.draw()
+
+    input_tree.remove(3)
+    print("after remove 3 (leaf)")
+    input_tree.draw()
+
+    input_tree.remove(7)
+    print("after remove 7 root with only right child")
+    input_tree.draw()
+
+    input_tree.remove(30)
+    print("after remove 30, a leaf")
+    input_tree.draw()
+
+    input_tree.remove(15)
+    print("after remove 15 root with only left child")
+    input_tree.draw()
