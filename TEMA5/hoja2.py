@@ -278,7 +278,91 @@ def _array2bst2(input_list: list, tree: BinarySearchTree) -> None:
         _array2bst2(input_list[:index_mid], tree)
         _array2bst2(input_list[index_mid+1:], tree)
 
+def closest(tree: BinarySearchTree, value: int) -> int:
+    """returns the closest element to value.
+    Worst Case: value exists and it is a leaf in the largest branch. O(log n)
+    Best Case: root is None or root.elem is value, O(1)
+    """
+    return _closest(tree.root, value)
 
+def _closest(node: BinaryNode, value: int) -> int:
+    """returns the closest element to value.
+    value could not exist into the input_tree."""
+
+    if node is None:  # when the root is none
+        return None
+
+    if node.elem == value:  # base case: node.elem is value
+        return value
+
+    if value < node.elem:  # we have to search in the left child
+        if node.left:
+            closest_child = _closest(node.left, value)
+        else:  # as there is no left child, the closest value will be node.elem
+            return node.elem
+    else:   # value > node.elem
+        if node.right:
+            closest_child = _closest(node.right, value)
+        else:
+            return node.elem
+
+    # we have to compare both distances
+    if abs(value - node.elem) < abs(value - closest_child):
+        return node.elem
+    elif abs(value - node.elem) > abs(value - closest_child):
+        return closest_child
+    else:
+        # if the distance is the same, we return the greatest element.
+        return max(closest_child, node.elem)
+
+def update_adding_left_child(tree: BinarySearchTree) -> None:
+    """change the value in each node to sum of all the values in the nodes in the left subtree including its own.
+    Complexity: O(n) """
+    _update_adding_left_child(tree.root)
+
+def _update_adding_left_child(node: BinaryNode) -> int:
+    # Base cases
+    if node is None:
+        return 0
+
+    # print("changing: ", node.elem)
+    if node.left is None and node.right is None:
+        return node.elem
+
+    # Update left and right subtrees
+    left_sum = _update_adding_left_child(node.left)
+    right_sum = _update_adding_left_child(node.right)
+
+    # Add right_sum to current node
+    node.elem += left_sum
+
+    # Return sum of values under root
+    return node.elem + right_sum
+
+def search_ancestors(tree: BinarySearchTree, value: int) -> (BinaryNode, BinaryNode, BinaryNode):
+    return _search_ancestors(tree.root, None, None, value)
+
+def _search_ancestors(node: BinaryNode,
+                     parent: BinaryNode,
+                     grand: BinaryNode, value: int) -> (BinaryNode, BinaryNode, BinaryNode):
+    if node is None:
+        return None, None, None
+    if node.elem == value:
+        return node, parent, grand
+    if value < node.elem:
+        return _search_ancestors(node.left, node, parent)
+    else:
+        return _search_ancestors(node.right, node, parent)
+
+
+def check_cousins(tree: BinarySearchTree, x: int, y: int) -> bool:
+    """returns True if x and y are cousins, and False eoc. Problem Exam May 2020
+        Complexity: O(log n)"""
+
+    grand_parent_x, parent_x, node_x = search_ancestors(tree, x)
+    grand_parent_y, parent_y, node_y = search_ancestors(tree, y)
+
+    return parent_x != parent_y and grand_parent_x == grand_parent_y
 
 class BSTRemove2(BinarySearchTree):
     def remove(self, elem: object) -> None:
@@ -438,9 +522,21 @@ if __name__ == "__main__":
     tree1.draw()
     print("get_non_leaves: ", get_non_leaves(tree1))
     """
+    """
     input_tree = BinarySearchTree()
     for x in [10, 20, 15, 18, 17, 19]:
         input_tree.insert(x)
         input_tree.draw()
         print("is_zig_zag:", is_zig_zag(input_tree))
+
+    for v in [18, 16, 11, 12, 13, 22]:
+        print("closest({})={}".format(v, closest(input_tree, v)))
+        
+    """
+    for x in [15, 3, 1, 5, 30, 20, 40]:
+        input_tree.insert(x)
+        input_tree.draw()
+
+    update_adding_left_child(input_tree)
+    input_tree.draw()
 
