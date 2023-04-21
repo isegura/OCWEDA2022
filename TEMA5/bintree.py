@@ -81,7 +81,6 @@ def _inorder_list(node: BinaryNode, in_list: list) -> None:
         in_list.append(node.elem)
         _inorder_list(node.right, in_list)
 
-
 class BinaryTree:
     def __init__(self) -> None:
         """creates an empty binary input_tree
@@ -180,31 +179,6 @@ class BinaryTree:
 
         return result
 
-    def depth(self, node):
-        """ returns the depth of the node; this is the length from
-        the root to the node"""
-
-        if self._root is None:
-            print('Error: the input_tree is empty')
-        else:
-            # we can use SList with tail and head
-            depth_level = 0
-
-            list_nodes = SList()
-            list_nodes.add_last(self._root)
-
-            while len(list_nodes) > 0:  # loop will be executed the size of input_tree: n
-                current = list_nodes.remove_first()  # O(1)
-                if current == node:
-                    return depth_level
-                if current.left is not None and node.elem < current.elem:
-                    list_nodes.add_last(current.left)  # O(1)
-                if current.right is not None and node.elem > current.elem:
-                    list_nodes.add_last(current.right)  # O(1)
-                depth_level += 1
-
-        print('Not found ', node.elem)
-        return None
 
     def draw(self) -> None:
         """function to draw an input_tree. """
@@ -220,9 +194,43 @@ class BinaryTree:
             print(prefix + "|-- " + str(node.elem))
             self._draw(prefix + "     ", node.left, True)
 
+
+    def depth(self, node: BinaryNode) -> int:
+        """ returns the depth of the node; this is the length from
+        the root to the node"""
+
+        if self._root is None:
+            print('Error: the input_tree is empty')
+            return None
+
+        # we can use SList with tail and head
+        depth_level = 0
+
+        list_nodes = SList()
+        list_nodes.add_last(self._root)
+
+        while len(list_nodes) > 0:  # loop will be executed the size of input_tree: n
+            current = list_nodes.remove_first()  # O(1)
+            if current == node:
+                return depth_level
+            if current.left and node.elem < current.elem:
+                list_nodes.add_last(current.left)  # O(1)
+            if current.right and node.elem > current.elem:
+                list_nodes.add_last(current.right)  # O(1)
+            depth_level += 1
+
+        print('Not found ', node.elem)
+        return None
+
     @property
     def root(self):
         return self._root
+
+
+# function to obta
+
+
+
 
 
 if __name__ == '__main__':

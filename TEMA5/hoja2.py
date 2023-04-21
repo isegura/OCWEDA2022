@@ -1,6 +1,7 @@
 from bst import BinarySearchTree
 from bintree import BinaryNode
 import bintree as bin
+import bst
 
 
 def get_smallest_ite(tree: BinarySearchTree) -> int:
@@ -315,6 +316,8 @@ def _closest(node: BinaryNode, value: int) -> int:
         # if the distance is the same, we return the greatest element.
         return max(closest_child, node.elem)
 
+
+
 def update_adding_left_child(tree: BinarySearchTree) -> None:
     """change the value in each node to sum of all the values in the nodes in the left subtree including its own.
     Complexity: O(n) """
@@ -340,6 +343,7 @@ def _update_adding_left_child(node: BinaryNode) -> int:
     return node.elem + right_sum
 
 def search_ancestors(tree: BinarySearchTree, value: int) -> (BinaryNode, BinaryNode, BinaryNode):
+    """returns (node, parent, grand) of value"""
     return _search_ancestors(tree.root, None, None, value)
 
 def _search_ancestors(node: BinaryNode,
@@ -350,9 +354,9 @@ def _search_ancestors(node: BinaryNode,
     if node.elem == value:
         return node, parent, grand
     if value < node.elem:
-        return _search_ancestors(node.left, node, parent)
+        return _search_ancestors(node.left, node, parent, value)
     else:
-        return _search_ancestors(node.right, node, parent)
+        return _search_ancestors(node.right, node, parent, value)
 
 
 def check_cousins(tree: BinarySearchTree, x: int, y: int) -> bool:
@@ -364,6 +368,65 @@ def check_cousins(tree: BinarySearchTree, x: int, y: int) -> bool:
 
     return parent_x != parent_y and grand_parent_x == grand_parent_y
 
+def lwc(tree: BinarySearchTree, a: int, b: int) -> int:
+    """returns the element of the node that is the lowest common ancestor
+    for a en b"""
+
+    # First, the solution must check all possible inputs
+    if not isinstance(a,int):
+        print(a, ' must be an integer')
+        return None
+    if not isinstance(b,int):
+        print(a, ' must be an integer')
+        return None
+
+    if a == b:
+        print(a, b, " must be different")
+        return None
+    if tree is None:
+        print('tree is None')
+        return None
+
+    # we search a and b in the tree, and also get their parents.
+    node_a, parent_a, _ = search_ancestors(tree, a)
+    if node_a is None:
+        print(a, ' does not exist in the tree')
+        return None
+
+    node_b, parent_b, _ = search_ancestors(tree, b)
+    if node_b is None:
+        print(b, ' does not exist in the tree')
+        return None
+
+    #it could be that a is a descendant of b, or b is a descendant of b
+    if bst._search(node_a, b) is not None:
+        # b is a descendant of a
+        if parent_a:
+            return parent_a.elem
+        return None
+    if bst._search(node_b, a) is not None:
+        # a is a descendant of b
+        if parent_b:
+            return parent_b.elem
+        return None
+
+    return _lwc(tree.root, a, b)
+
+
+def _lwc(node: BinaryNode, a: int, b: int) -> int:
+    if node is None:
+        return None
+    if a < node.elem and b < node.elem:
+        # if a and b are smaller than node.elem, I only have to search on its left child
+        return _lwc(node.left, a, b)
+    if a > node.elem and b > node.elem:
+        # if a and b are greater than node.elem, I only have to search on its right child
+        return _lwc(node.right, a, b)
+
+    #Case: (a<=node.elem<=b) or (b<=node.elem<=a):
+    return node
+
+
 class BSTRemove2(BinarySearchTree):
     def remove(self, elem: object) -> None:
         # update the root with the new subtree after remove elem
@@ -372,6 +435,7 @@ class BSTRemove2(BinarySearchTree):
 
 if __name__ == "__main__":
 
+    """
     input_tree = BinarySearchTree()
     values = [25, 20, 36, 10, 22, 30, 40, 5, 12, 28, 38, 48]
     for x in values:
@@ -381,7 +445,7 @@ if __name__ == "__main__":
     print("is_zig_zag: ", is_zig_zag(input_tree))
 
     """
-    
+    """
     print("Smallest element: ", get_smallest_ite(input_tree))
     assert get_smallest_ite(input_tree) == min(values)
 
@@ -533,10 +597,37 @@ if __name__ == "__main__":
         print("closest({})={}".format(v, closest(input_tree, v)))
         
     """
+
+    """
+    input_tree = BinarySearchTree()
     for x in [15, 3, 1, 5, 30, 20, 40]:
         input_tree.insert(x)
         input_tree.draw()
 
     update_adding_left_child(input_tree)
     input_tree.draw()
+    """
 
+    input_tree = BinarySearchTree()
+    for x in [15, 3, 1, 5, 30, 20, 40, 6]:
+        input_tree.insert(x)
+    input_tree.draw()
+
+    a, b = 15, 3
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 3, 30
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 1, 20
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 1, 30
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 20, 3
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 30, 40
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 1, 3
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 5, 6
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    a, b = 3, 6
+    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
