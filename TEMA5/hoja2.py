@@ -385,8 +385,8 @@ def check_cousins(tree: BinarySearchTree, x: int, y: int) -> bool:
     """returns True if x and y are cousins, and False eoc. Problem Exam May 2020
         Complexity: O(log n)"""
 
-    grand_parent_x, parent_x, node_x = search_ancestors(tree, x)
-    grand_parent_y, parent_y, node_y = search_ancestors(tree, y)
+    node_x, parent_x, grand_parent_x = search_ancestors(tree, x)
+    node_y, parent_y, grand_parent_y = search_ancestors(tree, y)
 
     return parent_x != parent_y and grand_parent_x == grand_parent_y
 
@@ -636,6 +636,7 @@ if __name__ == "__main__":
         input_tree.insert(number)
     input_tree.draw()
 
+    """    
     i, j = 15, 3
     print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
     i, j = 3, 30
@@ -654,3 +655,14 @@ if __name__ == "__main__":
     print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
     i, j = 3, 6
     print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    """
+
+    i, j = 15, 3
+    print("check_cousins({},{})={}".format(i, j, check_cousins(input_tree, i, j)))
+    i, j = 3, 30
+    print("check_cousins({},{})={}".format(i, j, check_cousins(input_tree, i, j)))
+    i, j = 1, 20
+    print("check_cousins({},{})={}".format(i, j, check_cousins(input_tree, i, j)))
+    i, j = 5, 20
+    print("check_cousins({},{})={}".format(i, j, check_cousins(input_tree, i, j)))
+
