@@ -1,6 +1,6 @@
 from bst import BinarySearchTree
 from bintree import BinaryNode
-import bintree as bin
+import bintree as bt
 import bst
 
 
@@ -55,6 +55,7 @@ def _get_smallest_rec(node: BinaryNode) -> int:
             return node.elem
     return result
 
+
 def sum_elements(tree: BinarySearchTree) -> int:
     """returns the sum of the elements. O(n)"""
     result = None
@@ -65,6 +66,7 @@ def sum_elements(tree: BinarySearchTree) -> int:
         result = sum(elements)
     return result
 
+
 def sum_elements_rec(tree: BinarySearchTree) -> int:
     """returns the sum of the elements. O(n)"""
     result = None
@@ -73,6 +75,7 @@ def sum_elements_rec(tree: BinarySearchTree) -> int:
     else:
         result = _sum_elements_rec(tree.root)
     return result
+
 
 def _sum_elements_rec(node: BinaryNode) -> int:
     """returns the sum of all elements in the subtree node"""
@@ -109,7 +112,7 @@ def _remove(node: BinaryNode, elem: object) -> BinaryNode:
             node = None
         elif node.left is None:  # Case 2: only has a right child
             node = node.right
-        elif node.right is None:    # Case 2: only has a left child
+        elif node.right is None:  # Case 2: only has a left child
             node = node.left
         else:  # Case 3: node.left!=None and node.right!=None
             # we search the biggest node from its left child
@@ -121,15 +124,18 @@ def _remove(node: BinaryNode, elem: object) -> BinaryNode:
 
     return node
 
+
 def _fe_size(node: BinaryNode) -> int:
     """returns the size balance factor of the input node"""
     if node is None:
         return 0
-    return abs(bin._size(node.left) - bin._size(node.right))
+    return abs(bt._size(node.left) - bt._size(node.right))
+
 
 def is_size_balanced(tree: BinarySearchTree) -> bool:
     """return True if the input_tree is size balanced"""
     return _is_size_balanced(tree.root)
+
 
 def _is_size_balanced(node: BinaryNode) -> bool:
     """returns True if the node is size balanced;
@@ -141,16 +147,19 @@ def _is_size_balanced(node: BinaryNode) -> bool:
 
     return True
 
+
 def _fe_height(node: BinaryNode) -> int:
     """returns the height balance factor of the input node"""
     if node is None:
         return 0
-    return abs(bin._height(node.left) - bin._height(node.right))
+    return abs(bt._height(node.left) - bt._height(node.right))
+
 
 def is_height_balanced(tree) -> bool:
     """return True if the input_tree is height balance, that is,
     if its root is height balanced"""
     return _is_height_balanced(tree.root)
+
 
 def _is_height_balanced(node: BinaryNode) -> bool:
     """return True if the node is balanced, False e.o.c
@@ -158,8 +167,8 @@ def _is_height_balanced(node: BinaryNode) -> bool:
     its two children are height balanced"""
     if node:
         return _fe_height(node) <= 1 and \
-            _is_height_balanced(node.left) and \
-            _is_height_balanced(node.right)
+               _is_height_balanced(node.left) and \
+               _is_height_balanced(node.right)
 
     return True
 
@@ -170,6 +179,7 @@ def same_shape(tree1: BinarySearchTree, tree2: BinarySearchTree) -> bool:
         result = _same_shape(tree1.root, tree2.root)
     return result
 
+
 def _same_shape(node1: BinaryNode, node2: BinaryNode) -> bool:
     result = False
     if node1 is None and node2 is None:
@@ -179,6 +189,7 @@ def _same_shape(node1: BinaryNode, node2: BinaryNode) -> bool:
                  _same_shape(node1.right, node2.right)
     return result
 
+
 def get_non_leaves(tree) -> list:
     """returns a list with the elements of the nodes that are not leaves.
     Complexity O(n).
@@ -187,6 +198,7 @@ def get_non_leaves(tree) -> list:
     _get_non_leaves(tree.root, result)
     return result
 
+
 def _get_non_leaves(node: BinaryNode, lst_nodes: list) -> None:
     """ Complexity: O(n) """
     if node:
@@ -194,6 +206,7 @@ def _get_non_leaves(node: BinaryNode, lst_nodes: list) -> None:
         if node.left or node.right:
             lst_nodes.append(node.elem)
         _get_non_leaves(node.left, lst_nodes)
+
 
 def is_zig_zag(tree: BinarySearchTree) -> bool:
     """returns True if the input_tree is a ziz-zag-shaped input_tree, False eoc.
@@ -205,6 +218,7 @@ def is_zig_zag(tree: BinarySearchTree) -> bool:
 
     return _is_zig_zag(tree.root, None)
 
+
 def _num_children(node: BinaryNode) -> int:
     """returns the number of children of node.
     O(1)"""
@@ -215,6 +229,7 @@ def _num_children(node: BinaryNode) -> int:
         if node.right:
             count += 1
     return count
+
 
 def _is_zig_zag(node: BinaryNode, origin: str) -> bool:
     """returns True if the node has a zig-zag-shape, False eoc"""
@@ -232,6 +247,7 @@ def _is_zig_zag(node: BinaryNode, origin: str) -> bool:
     # then, node has a right child
     return _is_zig_zag(node.right, "right") if origin != "right" else False
 
+
 def is_left_odd_right_even(tree: BinarySearchTree) -> bool:
     """checks that all nodes (non-leaves) have a left child with an odd value and a right child with an even value.
     Wort case, the input_tree is left-odd-right-even, you have to visit all nodes, O(n)
@@ -240,6 +256,7 @@ def is_left_odd_right_even(tree: BinarySearchTree) -> bool:
         return False
 
     return _is_left_odd_right_even(tree.root)
+
 
 def _is_left_odd_right_even(node: BinaryNode) -> bool:
     """checks that all nodes (non-leaves) have a left child with an odd value and a right child with an even value"""
@@ -259,16 +276,17 @@ def array2bst(input_list: list) -> BinarySearchTree:
     """ gets a sorted list and creates a balanced bst"""
     result = BinarySearchTree()
     if input_list and len(input_list) >= 1:
-        _array2bst(input_list, 0, len(input_list)-1, result)
+        _array2bst(input_list, 0, len(input_list) - 1, result)
     return result
+
 
 def _array2bst(input_list: list, start: int, end: int,
                tree: BinarySearchTree) -> None:
     if start <= end:
         index_mid = (start + end) // 2
         tree.insert(input_list[index_mid])
-        _array2bst(input_list, start, index_mid-1, tree)
-        _array2bst(input_list, index_mid+1, end, tree)
+        _array2bst(input_list, start, index_mid - 1, tree)
+        _array2bst(input_list, index_mid + 1, end, tree)
 
 
 def _array2bst2(input_list: list, tree: BinarySearchTree) -> None:
@@ -277,14 +295,16 @@ def _array2bst2(input_list: list, tree: BinarySearchTree) -> None:
         tree.insert(input_list[index_mid])
 
         _array2bst2(input_list[:index_mid], tree)
-        _array2bst2(input_list[index_mid+1:], tree)
+        _array2bst2(input_list[index_mid + 1:], tree)
+
 
 def closest(tree: BinarySearchTree, value: int) -> int:
     """returns the closest element to value.
-    Worst Case: value exists and it is a leaf in the largest branch. O(log n)
-    Best Case: root is None or root.elem is value, O(1)
+    Worst Case: value exists, and it is a leaf in the largest branch. O(log n)
+    Best Case: root is None or root. elem is value, O(1)
     """
     return _closest(tree.root, value)
+
 
 def _closest(node: BinaryNode, value: int) -> int:
     """returns the closest element to value.
@@ -301,7 +321,7 @@ def _closest(node: BinaryNode, value: int) -> int:
             closest_child = _closest(node.left, value)
         else:  # as there is no left child, the closest value will be node.elem
             return node.elem
-    else:   # value > node.elem
+    else:  # value > node.elem
         if node.right:
             closest_child = _closest(node.right, value)
         else:
@@ -317,11 +337,11 @@ def _closest(node: BinaryNode, value: int) -> int:
         return max(closest_child, node.elem)
 
 
-
 def update_adding_left_child(tree: BinarySearchTree) -> None:
     """change the value in each node to sum of all the values in the nodes in the left subtree including its own.
     Complexity: O(n) """
     _update_adding_left_child(tree.root)
+
 
 def _update_adding_left_child(node: BinaryNode) -> int:
     # Base cases
@@ -342,13 +362,15 @@ def _update_adding_left_child(node: BinaryNode) -> int:
     # Return sum of values under root
     return node.elem + right_sum
 
+
 def search_ancestors(tree: BinarySearchTree, value: int) -> (BinaryNode, BinaryNode, BinaryNode):
     """returns (node, parent, grand) of value"""
     return _search_ancestors(tree.root, None, None, value)
 
+
 def _search_ancestors(node: BinaryNode,
-                     parent: BinaryNode,
-                     grand: BinaryNode, value: int) -> (BinaryNode, BinaryNode, BinaryNode):
+                      parent: BinaryNode,
+                      grand: BinaryNode, value: int) -> (BinaryNode, BinaryNode, BinaryNode):
     if node is None:
         return None, None, None
     if node.elem == value:
@@ -368,15 +390,16 @@ def check_cousins(tree: BinarySearchTree, x: int, y: int) -> bool:
 
     return parent_x != parent_y and grand_parent_x == grand_parent_y
 
+
 def lwc(tree: BinarySearchTree, a: int, b: int) -> int:
     """returns the element of the node that is the lowest common ancestor
     for a en b"""
 
     # First, the solution must check all possible inputs
-    if not isinstance(a,int):
+    if not isinstance(a, int):
         print(a, ' must be an integer')
         return None
-    if not isinstance(b,int):
+    if not isinstance(b, int):
         print(a, ' must be an integer')
         return None
 
@@ -398,7 +421,7 @@ def lwc(tree: BinarySearchTree, a: int, b: int) -> int:
         print(b, ' does not exist in the tree')
         return None
 
-    #it could be that a is a descendant of b, or b is a descendant of b
+    # it could be that a is a descendant of b, or b is a descendant of b
     if bst._search(node_a, b) is not None:
         # b is a descendant of a
         if parent_a:
@@ -423,7 +446,7 @@ def _lwc(node: BinaryNode, a: int, b: int) -> int:
         # if a and b are greater than node.elem, I only have to search on its right child
         return _lwc(node.right, a, b)
 
-    #Case: (a<=node.elem<=b) or (b<=node.elem<=a):
+    # Case: (a<=node.elem<=b) or (b<=node.elem<=a):
     return node
 
 
@@ -609,25 +632,25 @@ if __name__ == "__main__":
     """
 
     input_tree = BinarySearchTree()
-    for x in [15, 3, 1, 5, 30, 20, 40, 6]:
-        input_tree.insert(x)
+    for number in [15, 3, 1, 5, 30, 20, 40, 6]:
+        input_tree.insert(number)
     input_tree.draw()
 
-    a, b = 15, 3
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 3, 30
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 1, 20
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 1, 30
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 20, 3
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 30, 40
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 1, 3
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 5, 6
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
-    a, b = 3, 6
-    print("lwc({},{})={}".format(a, b, lwc(input_tree, a, b)))
+    i, j = 15, 3
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 3, 30
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 1, 20
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 1, 30
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 20, 3
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 30, 40
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 1, 3
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 5, 6
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
+    i, j = 3, 6
+    print("lwc({},{})={}".format(i, j, lwc(input_tree, i, j)))
