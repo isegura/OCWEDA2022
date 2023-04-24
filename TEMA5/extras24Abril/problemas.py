@@ -5,7 +5,9 @@ from bintree import BinaryTree, BinaryNode
 
 def sum_k_smallest(tree: BinarySearchTree, k: int) -> int:
     """returns the sum of the k smallest elements of tree. If
-    k > size(tree), returns the sum of all elements"""
+    k > size(tree), returns the sum of all elements.
+    This is the least efficient in terms of spacial complexity
+    because it uses a python list to save the in-order list"""
 
     if not isinstance(k, int) or k < 0:
         print(k, " must be an integer >= 0")
@@ -21,6 +23,32 @@ def sum_k_smallest(tree: BinarySearchTree, k: int) -> int:
     # result = sum(elements[:min_size])
 
     return result
+
+
+def sum_k_smallest2(tree: BinarySearchTree, k: int) -> int:
+    """This version is more efficient than the previous because
+    it does not use a Python list to save the in-order traverse"""
+    if not isinstance(k, int) or k < 0:
+        print(k, " must be an integer >= 0")
+        return 0
+    if tree is None:
+        return 0
+
+    """returns the sum of the k smallest elements of tree. If
+    k > size(tree), returns the sum of all elements"""
+    k_sum = 0 # saves the sum for the previous nodes
+    _, k_sum = __sum_k_smallest(tree.root, k, k_sum)
+    return k_sum
+
+
+def __sum_k_smallest(node: BinaryNode, k: int, sum_so_far: int) -> (int, int):
+    if node is not None and k != 0:
+        k, sum_so_far = __sum_k_smallest(node.left, k, sum_so_far)
+        if k > 0:
+            k -= 1
+            sum_so_far += node.elem
+        k, sum_so_far = __sum_k_smallest(node.right, k, sum_so_far)
+    return k, sum_so_far
 
 
 def create_tree_preorder(lst: list) -> BinaryTree:
@@ -164,17 +192,18 @@ def _distance_from_ancestor(node: BinaryNode, a: int) -> int:
 
 if __name__ == "__main__":
 
-    """
+
     # test problema 1, sum_k_smallest
     input_tree = BinarySearchTree()
     for x in [25, 10, 15, 30, 25]:
         input_tree.insert(x)
     input_tree.draw()
 
-    for k in range(-1, input_tree.size()+3):
-        print("sum_k_smallest(,{})={}".format(k, sum_k_smallest(input_tree, k)))
+    for j in range(-1, input_tree.size() + 3):
+        print("sum_k_smallest(,{})={}".format(j, sum_k_smallest(input_tree, j)))
 
-    """
+        print("sum_k_smallest(,{})={}".format(j, sum_k_smallest2(input_tree, j)))
+
 
     """ 
     # test para el problema 2
