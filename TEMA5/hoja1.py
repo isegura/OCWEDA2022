@@ -2,6 +2,7 @@ from bintree import BinaryTree, BinaryNode
 import sys
 
 
+
 class MyBinaryTree(BinaryTree):
     def mirror(self) -> None:
         """transform it to its mirror version"""
@@ -29,6 +30,45 @@ class MyBinaryTree(BinaryTree):
         return (min_value <= node.elem <= max_value) and \
             self.__is_bst(node.left, min_value, node.elem - 1) \
             and self.__is_bst(node.right, node.elem + 1, max_value)
+
+    def same_shape(self, other_tree: BinaryTree) -> bool:
+        result = False
+        if other_tree is not None:
+            result = self.__same_shape(self.root, other_tree.root)
+        return result
+
+    def __same_shape(self, node1: BinaryNode, node2: BinaryNode) -> bool:
+        result = False
+        if node1 is None and node2 is None:
+            result = True
+        elif node1 is not None and node2 is not None:
+            result = self.__same_shape(node1.left, node2.left) and \
+                     self.__same_shape(node1.right, node2.right)
+        return result
+
+    def update_adding_left_child(self) -> None:
+        """change the value in each node to sum of all the values in the nodes in the left subtree including its own.
+        Complexity: O(n) """
+        self.__update_adding_left_child(self._root)
+
+    def __update_adding_left_child(self, node: BinaryNode) -> int:
+        # Base cases
+        if node is None:
+            return 0
+
+        # print("changing: ", node.elem)
+        if node.left is None and node.right is None:
+            return node.elem
+
+        # Update left and right subtrees
+        left_sum = self.__update_adding_left_child(node.left)
+        right_sum = self.__update_adding_left_child(node.right)
+
+        # Add right_sum to current node
+        node.elem += left_sum
+
+        # Return sum of values under root
+        return node.elem + right_sum
 
 
 if __name__ == "__main__":
