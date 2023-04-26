@@ -38,24 +38,25 @@ class BinaryTree:
 
     def size(self) -> int:
         """Returns the number of nodes"""
-        return self.__size(self._root)
+        return self._size(self._root)
 
-    def __size(self, node: BinaryNode) -> int:
+    def _size(self, node: BinaryNode) -> int:
         """return the size of the subtree from node"""
         if node is None:
             return 0
-        return 1 + self.__size(node.left) + self.__size(node.right)
+        return 1 + self._size(node.left) + self._size(node.right)
 
     def height(self) -> int:
         """Returns the height of the input_tree"""
-        return self.__height(self._root)
+        return self._height(self._root)
 
-    def __height(self, node: BinaryNode) -> int:
-        """returns the height of node"""
+    def _height(self, node: BinaryNode) -> int:
+        """returns the height of node. It's protected because
+        this method will be used in AVL"""
         if node is None:
             return -1
 
-        return 1 + max(self.__height(node.left), self.__height(node.right))
+        return 1 + max(self._height(node.left), self._height(node.right))
 
     def preorder(self) -> None:
         """prints the preorder (root, left, right) traversal of the input_tree"""

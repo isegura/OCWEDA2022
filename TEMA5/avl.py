@@ -16,24 +16,24 @@ class AVLTree(BinarySearchTree):
     # Override insert method from base class to keep it as AVL
     def insert(self, elem: object) -> None:
         """inserts a new node, with key and element elem"""
-        self._root = self._insert(self._root, elem)
+        self._root = self.__insert(self._root, elem)
 
-    def _insert(self, node: BinaryNode, elem: object) -> BinaryNode:
+    def __insert(self, node: BinaryNode, elem: object) -> BinaryNode:
         node = super()._insert(node, elem)
-        node = self._rebalance(node)
+        node = self.__balance(node)
         return node
 
     # Override remove method from base class to keep it as AVL
     def remove(self, elem: object) -> None:
-        self._root = self._remove(self._root, elem)
+        self._root = self.__remove(self._root, elem)
 
-    def _remove(self, node: BinaryNode, elem: object) -> BinaryNode:
+    def __remove(self, node: BinaryNode, elem: object) -> BinaryNode:
         node = super()._remove(node, elem)
-        node = self._rebalance(node)
+        node = self.__balance(node)
         return node
 
-    def _rebalance(self, node: BinaryNode) -> BinaryNode:
-        # O(n)
+    def __balance(self, node: BinaryNode) -> BinaryNode:
+        # O(log n)
         if abs(self.balance_factor(node)) <= 1:
             return node  # the node is already balanced, we do nothing
 
@@ -42,7 +42,7 @@ class AVLTree(BinarySearchTree):
         height_left = self._height(node.left)
         height_right = self._height(node.right)
 
-        # the left branch is larger than the right branch
+        # the left branch is larger than the right branch,
         # so we have to do a right rotation
         if height_left > height_right:  # right rotate
             # as it is greater, node.left cannot be None,
@@ -50,25 +50,25 @@ class AVLTree(BinarySearchTree):
             height_left_right = self._height(node.left.right)
             if height_left_left < height_left_right:  
                 # print(' double first left rotation on: ', node.elem)
-                node.left = self.left_rotate(node.left)
+                node.left = self.__left_rotate(node.left)
             # print('right rotation on ', node.elem)
-            node = self.right_rotate(node)
+            node = self.__right_rotate(node)
         else:  
             # left rotate
             height_right_left = self._height(node.right.left)
             height_right_right = self._height(node.right.right)
             if height_right_right < height_right_left:  # double rotation (right - left)
                 # print(' double first right rotation on: ', node.elem)
-                node.right = self.right_rotate(node.right)
+                node.right = self.__right_rotate(node.right)
             # print('left rotation on ', node.elem)
-            node = self.left_rotate(node)
+            node = self.__left_rotate(node)
         return node
 
-    def right_rotate(self, node: BinaryNode) -> BinaryNode:
+    def __right_rotate(self, node: BinaryNode) -> BinaryNode:
         """balance node by right rotation """
         # its child left becomes the new root (and we will return it)
         new_root = node.left  # it will be the new root
-        # we save the right child of new_root (because it will become the left childe of node)
+        # we save the right child of new_root (because it will become the left child of node)
         subtree = new_root.right
         # node becomes the right child of new_root
         new_root.right = node
@@ -77,13 +77,13 @@ class AVLTree(BinarySearchTree):
         # print(new_root.left.elem,new_root.elem,new_root.right.elem)
         return new_root
 
-    def left_rotate(self, node: BinaryNode) -> BinaryNode:
+    def __left_rotate(self, node: BinaryNode) -> BinaryNode:
         """balance node applying left rotation"""
         # print("left rotation on ", node.key)
         # its right child becomes the new root of the subtree
         # Also, the function will return new_root
         new_root = node.right
-        # we save the left childe of new_root, because
+        # we save the left child  of new_root, because
         # it becomes the right child of node
         subtree = new_root.left
 

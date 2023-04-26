@@ -28,7 +28,8 @@ class BinarySearchTree(BinaryTree):
 
     def _insert(self, node: BinaryNode, elem: object) -> BinaryNode:
         """recursive function to insert a new node in the subtree node.
-        Returns the new node"""
+        Returns the new node.
+        This method is protected because it will be used in AVL"""
         if node is None:
             node = BinaryNode(elem)
         elif node.elem == elem:
@@ -56,7 +57,10 @@ class BinarySearchTree(BinaryTree):
 
     def _remove(self, node: BinaryNode, elem: object) -> BinaryNode:
         """It recursively searches the node. When the node is
-        found, the node has to be removed"""
+        found, the node has to be removed.
+        Returns node after removing elem.
+        This method is protected because it will be used in AVL
+        """
         if node is None:
             print(elem, ' not found')
         elif elem < node.elem:
