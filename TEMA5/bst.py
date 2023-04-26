@@ -3,83 +3,83 @@
 from bintree import BinaryNode
 from bintree import BinaryTree
 
-"""Auxiliary function"""
-def _search(node: BinaryNode, elem: object) -> BinaryNode:
-    """recursive function to search elem in the subtree node.
-    Returns the node if elem exists, None eoc"""
-    result = None
-    if node is None or node.elem == elem:
-        result = node
-    elif elem < node.elem:
-        result = _search(node.left, elem)
-    elif elem > node.elem:
-        result = _search(node.right, elem)
-    return result
-
-
-def _insert(node: BinaryNode, elem: object) -> BinaryNode:
-    """recursive function to insert a new node in the subtree node.
-    Returns the new node"""
-    if node is None:
-        node = BinaryNode(elem)
-    elif node.elem == elem:
-        print('Error: elem already exist ', elem)
-    elif elem < node.elem:
-        node.left = _insert(node.left, elem)
-    else:  # elem>node.elem
-        node.right = _insert(node.right, elem)
-    return node
-
-def _minimum_node(node: BinaryNode) -> BinaryNode:
-    """returns the  node with the smallest elem in the subtree node.
-    This is the node that is furthest to the left"""
-    min_node = node
-    if min_node is not None:
-        while min_node.left is not None:
-            min_node = min_node.left
-    return min_node
-
-def _remove(node: BinaryNode, elem: object) -> BinaryNode:
-    """It recursively searches the node. When the node is
-    found, the node has to be removed"""
-    if node is None:
-        print(elem, ' not found')
-    elif elem < node.elem:
-        node.left = _remove(node.left, elem)
-    elif elem > node.elem:
-        node.right = _remove(node.right, elem)
-    else:  # node.elem == elem, node is the node to remove!!!
-        if node.left is None and node.right is None:
-            # Case 1: node is a leave
-            node = None
-        elif node.left is None:  # Case 2: only has a right child
-            node = node.right
-        elif node.right is None:    # Case 2: only has a left child
-            node = node.left
-        else:  # Case 3: node.left!=None and node.right!=None
-            # we search the smallest node from its right child
-            successor = _minimum_node(node.right)
-            # we replace elem with the elem of the successor
-            node.elem = successor.elem
-            # now, we have to remove successor from the right child
-            node.right = _remove(node.right, successor.elem)
-
-    return node
-
 
 class BinarySearchTree(BinaryTree):
 
     def search(self, elem: object) -> BinaryNode:
         """Returns the node whose elem is elem"""
-        return _search(self._root, elem)
+        return self.__search(self._root, elem)
+
+    def __search(self, node: BinaryNode, elem: object) -> BinaryNode:
+        """recursive function to search elem in the subtree node.
+        Returns the node if elem exists, None eoc"""
+        result = None
+        if node is None or node.elem == elem:
+            result = node
+        elif elem < node.elem:
+            result = self.__search(node.left, elem)
+        elif elem > node.elem:
+            result = self.__search(node.right, elem)
+        return result
 
     def insert(self, elem: object) -> None:
         """insert a new node containing this element"""
-        self._root = _insert(self._root, elem)
+        self._root = self.__insert(self._root, elem)
+
+    def __insert(self, node: BinaryNode, elem: object) -> BinaryNode:
+        """recursive function to insert a new node in the subtree node.
+        Returns the new node"""
+        if node is None:
+            node = BinaryNode(elem)
+        elif node.elem == elem:
+            print('Error: elem already exist ', elem)
+        elif elem < node.elem:
+            node.left = self.__insert(node.left, elem)
+        else:  # elem>node.elem
+            node.right = self.__insert(node.right, elem)
+        return node
 
     def remove(self, elem: object) -> None:
         # update the root with the new subtree after remove elem
-        self._root = _remove(self._root, elem)
+        self._root = self.__remove(self._root, elem)
+
+    def __minimum_node(self, node: BinaryNode) -> BinaryNode or None:
+        """returns the  node with the smallest elem in the subtree node.
+        This is the node that is furthest to the left"""
+        if node is None:
+            return None
+
+        min_node = node
+        while min_node.left is not None:
+            min_node = min_node.left
+        return min_node
+
+    def __remove(self, node: BinaryNode, elem: object) -> BinaryNode:
+        """It recursively searches the node. When the node is
+        found, the node has to be removed"""
+        if node is None:
+            print(elem, ' not found')
+        elif elem < node.elem:
+            node.left = self.__remove(node.left, elem)
+        elif elem > node.elem:
+            node.right = self.__remove(node.right, elem)
+        else:  # node.elem == elem, node is the node to remove!!!
+            if node.left is None and node.right is None:
+                # Case 1: node is a leave
+                node = None
+            elif node.left is None:  # Case 2: only has a right child
+                node = node.right
+            elif node.right is None:    # Case 2: only has a left child
+                node = node.left
+            else:  # Case 3: node.left!=None and node.right!=None
+                # we search the smallest node from its right child
+                successor = self.__minimum_node(node.right)
+                # we replace elem with the elem of the successor
+                node.elem = successor.elem
+                # now, we have to remove successor from the right child
+                node.right = self.__remove(node.right, successor.elem)
+
+        return node
 
     def searchit(self, elem: object) -> BinaryNode:
         """iterative function to search an elem in a BST. It
