@@ -82,7 +82,7 @@ class Test(unittest.TestCase):
             expected.insert(x)
         # expected.draw()
         self.tree.remove(80)
-        # self.tree.draw()
+        # self.tree1.draw()
         self.assertEqual(self.tree, expected)
 
     def testRemove2(self):
@@ -124,7 +124,7 @@ class Test(unittest.TestCase):
             expected.insert(x)
         # expected.draw()
         self.tree.remove(15)
-        # self.tree.draw()
+        # self.tree1.draw()
 
         self.assertEqual(self.tree, expected)
 
@@ -136,7 +136,7 @@ class Test(unittest.TestCase):
         # expected.draw()
 
         self.tree.remove(20)
-        # self.tree.draw()
+        # self.tree1.draw()
 
         self.assertTrue(self.tree == expected)
 
@@ -148,7 +148,7 @@ class Test(unittest.TestCase):
         # expected.draw()
 
         self.tree.remove(50)
-        # self.tree.draw()
+        # self.tree1.draw()
 
         self.assertTrue(self.tree == expected)
 
@@ -162,7 +162,7 @@ class Test(unittest.TestCase):
         # expected.draw()
 
         self.tree.remove(50)
-        # self.tree.draw()
+        # self.tree1.draw()
 
         self.assertTrue(self.tree == expected)
 
@@ -182,7 +182,7 @@ class Test(unittest.TestCase):
             expected.insert(e)
         # expected.draw()
         self.tree.remove(x)
-        # self.tree.draw()
+        # self.tree1.draw()
 
         self.assertTrue(self.tree == expected)
         print('\n\ttest_remove12 was OK!!!')
@@ -234,11 +234,11 @@ class Test(unittest.TestCase):
         tree = BinarySearchTree()
         for n in data:
             tree.insert(n)
-        # tree.draw()
+        # tree1.draw()
 
         print("after remove 8")
         tree.remove(8)
-        # tree.draw()
+        # tree1.draw()
 
         expected = BinarySearchTree()
         for e in [12, 18, 6, 20, 14, 4, 2]:

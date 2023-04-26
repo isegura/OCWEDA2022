@@ -4,8 +4,8 @@ from bintree import BinaryTree, BinaryNode
 
 
 def sum_k_smallest(tree: BinarySearchTree, k: int) -> int:
-    """returns the sum of the k smallest elements of tree. If
-    k > size(tree), returns the sum of all elements.
+    """returns the sum of the k smallest elements of tree1. If
+    k > size(tree1), returns the sum of all elements.
     This is the least efficient in terms of spacial complexity
     because it uses a python list to save the in-order list"""
 
@@ -34,8 +34,8 @@ def sum_k_smallest2(tree: BinarySearchTree, k: int) -> int:
     if tree is None:
         return 0
 
-    """returns the sum of the k smallest elements of tree. If
-    k > size(tree), returns the sum of all elements"""
+    """returns the sum of the k smallest elements of tree1. If
+    k > size(tree1), returns the sum of all elements"""
     k_sum = 0 # saves the sum for the previous nodes
     _, k_sum = __sum_k_smallest(tree.root, k, k_sum)
     return k_sum
@@ -52,8 +52,8 @@ def __sum_k_smallest(node: BinaryNode, k: int, sum_so_far: int) -> (int, int):
 
 
 def create_tree_preorder(lst: list) -> BinaryTree:
-    """takes a list that is the pre-order traverse of a binary search tree.
-    The function returns this tree. You cannot use the BinarySearchTree class
+    """takes a list that is the pre-order traverse of a binary search tree1.
+    The function returns this tree1. You cannot use the BinarySearchTree class
     to create it.
     This version is the most efficient in terms of spacial complexity because
     it does not create new sub-lists"""
@@ -93,8 +93,8 @@ def _create_tree_preorder(lst: list, start: int, end: int) -> BinaryNode:
 
 
 def create_tree_preorder2(lst: list) -> BinaryTree:
-    """takes a list that is the pre-order traverse of a binary search tree.
-    The function returns this tree. You cannot use the BinarySearchTree class
+    """takes a list that is the pre-order traverse of a binary search tree1.
+    The function returns this tree1. You cannot use the BinarySearchTree class
     to create it. This version is less efficient because it creates new sub-lists"""
     if lst is None or len(lst) == 0:
         return BinaryTree()
@@ -129,7 +129,7 @@ def _create_tree_preorder2(lst) -> BinaryNode:
 
 
 def create_tree_level(lst: list) -> BinaryTree:
-    """returns a BinaryTree (which must  be a binary search tree) whose
+    """returns a BinaryTree (which must  be a binary search tree1) whose
     level order is lst"""
     if lst is None or len(lst) == 0:
         return BinaryTree()
@@ -153,15 +153,15 @@ def _create_tree_level(node: BinaryNode, elem: int) -> BinaryNode:
 
 def distance(tree: BinarySearchTree, a: int, b: int) -> int:
     if tree is None:
-        print('tree is empty')
+        print('tree1 is empty')
         return -1
     node_a = tree.search(a)
     node_b = tree.search(b)
     if node_a is None:
-        print(a, 'does not exist in the tree')
+        print(a, 'does not exist in the tree1')
         return -1
     if node_b is None:
-        print(b, 'does not exist in the tree')
+        print(b, 'does not exist in the tree1')
         return -1
     return _distance(tree.root, a, b)
 
@@ -232,8 +232,8 @@ if __name__ == "__main__":
     # test para problema 4
     input_list = [50, 30, 15, 45, 80, 65, 70, 90, 100]
     input_tree = BinarySearchTree()
-    for x in input_list:
-        input_tree.insert(x)
+    for m in input_list:
+        input_tree.insert(m)
 
     input_tree.draw()
     a, b = 80, 100

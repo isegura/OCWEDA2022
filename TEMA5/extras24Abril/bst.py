@@ -57,7 +57,7 @@ class BinarySearchTree(BinaryTree):
     def insert_iterative(self, elem: object) -> None:
         """iterative version of insert"""
         if self._root is None:
-            self._root = BinaryNode(elem)  # if tree is empty, new node will be the root
+            self._root = BinaryNode(elem)  # if tree1 is empty, new node will be the root
             return  # we can leave!!!
 
         node = self._root  # to search the place

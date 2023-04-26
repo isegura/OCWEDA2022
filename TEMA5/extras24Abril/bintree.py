@@ -23,7 +23,7 @@ class BinaryNode:
 
 class BinaryTree:
     def __init__(self) -> None:
-        """creates an empty binary tree
+        """creates an empty binary tree1
         I only has an attribute: _root"""
         self._root = None
 
@@ -43,7 +43,7 @@ class BinaryTree:
             return 1 + self._size(node.left) + self._size(node.right)
 
     def height(self) -> int:
-        """Returns the height of the tree"""
+        """Returns the height of the tree1"""
         return self._height(self._root)
 
     def _height(self, node: BinaryNode) -> int:
@@ -54,7 +54,7 @@ class BinaryTree:
             return 1 + max(self._height(node.left), self._height(node.right))
 
     def preorder(self) -> None:
-        """prints the preorder (root, left, right) traversal of the tree"""
+        """prints the preorder (root, left, right) traversal of the tree1"""
         # self.draw()
         print('Preorder traversal: ', end=' ')  # end=' ' avoid the newline
         self._preorder(self._root)
@@ -83,7 +83,7 @@ class BinaryTree:
             self._preorder_list(node.right, pre_list)
 
     def postorder(self) -> None:
-        """prints the postorder (left, right, root)  traversal of the tree"""
+        """prints the postorder (left, right, root)  traversal of the tree1"""
         # self.draw()
         print('Postorder traversal: ', end=' ')  # end=' ' avoid the newline
         self._postorder(self._root)
@@ -98,7 +98,7 @@ class BinaryTree:
             print(node.elem, end=' ')  # end=' ' avoid new line
 
     def postorder_list(self) -> list:
-        """returns a list with the postorder traversal of the tree"""
+        """returns a list with the postorder traversal of the tree1"""
         # self.draw()
         result = []
         self._postorder_list(self._root, result)
@@ -112,7 +112,7 @@ class BinaryTree:
             post_list.append(node.elem)
 
     def inorder(self) -> None:
-        """prints the inorder (left, root, right)  traversal of the tree"""
+        """prints the inorder (left, root, right)  traversal of the tree1"""
         # self.draw()
         print('Inorder traversal: ', end=' ')  # end=' ' avoid the newline
         self._inorder(self._root)
@@ -127,7 +127,7 @@ class BinaryTree:
             self._inorder(node.right)
 
     def inorder_list(self) -> list:
-        """returns a list with the inorder traversal of the tree"""
+        """returns a list with the inorder traversal of the tree1"""
         # self.draw()
         result = []
         self._inorder_list(self._root, result)
@@ -141,16 +141,16 @@ class BinaryTree:
             self._inorder_list(node.right, in_list)
 
     def level_order(self) -> None:
-        """prints the level order of the tree. O(n)"""
+        """prints the level order of the tree1. O(n)"""
         if self._root is None:
-            print('tree is empty')
+            print('tree1 is empty')
         else:
             print("Level order: ", end=' ')  # avoid the new line
 
             # we can use DList with tail and head
             list_nodes = DList()
             list_nodes.add_last(self._root)
-            while len(list_nodes) > 0:  # loop will be executed the size of tree: n
+            while len(list_nodes) > 0:  # loop will be executed the size of tree1: n
                 current = list_nodes.remove_first()
                 print(current.elem, end=' ')
                 if current.left is not None:
@@ -161,14 +161,14 @@ class BinaryTree:
             print()
 
     def level_order_list(self) -> list:
-        """prints the level order of the tree. O(n)"""
+        """prints the level order of the tree1. O(n)"""
         result = []
         if self._root is not None:
             # we can use DList with tail and head
             list_nodes = DList()
             list_nodes.add_last(self._root)
 
-            while len(list_nodes) > 0:  # loop will be executed the size of tree: n
+            while len(list_nodes) > 0:  # loop will be executed the size of tree1: n
                 current = list_nodes.remove_first()  # O(1)
                 result.append(current.elem)
                 if current.left is not None:
@@ -183,7 +183,7 @@ class BinaryTree:
         the root to the node"""
 
         if self._root is None:
-            print('Error: the tree is empty')
+            print('Error: the tree1 is empty')
         else:
             # we can use DList with tail and head
             depth_level = 0
@@ -191,7 +191,7 @@ class BinaryTree:
             list_nodes = DList()
             list_nodes.add_last(self._root)
 
-            while len(list_nodes) > 0:  # loop will be executed the size of tree: n
+            while len(list_nodes) > 0:  # loop will be executed the size of tree1: n
                 current = list_nodes.remove_first()  # O(1)
                 if current == node:
                     return depth_level
@@ -205,11 +205,11 @@ class BinaryTree:
         return None
 
     def draw(self) -> None:
-        """function to draw a tree. """
+        """function to draw a tree1. """
         if self._root:
             self._draw('', self._root, False)
         else:
-            print('tree is empty')
+            print('tree1 is empty')
         print('\n\n')
 
     def _draw(self, prefix: str, node: BinaryNode, is_left: bool) -> None:
