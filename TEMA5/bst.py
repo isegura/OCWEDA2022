@@ -44,9 +44,11 @@ class BinarySearchTree(BinaryTree):
         # update the root with the new subtree after remove elem
         self._root = self._remove(self._root, elem)
 
-    def __minimum_node(self, node: BinaryNode) -> BinaryNode or None:
+    @staticmethod
+    def __minimum_node(node: BinaryNode) -> BinaryNode or None:
         """returns the  node with the smallest elem in the subtree node.
-        This is the node that is furthest to the left"""
+        This is the node that is furthest to the left.
+        This is a static method because it will not modify the instance"""
         if node is None:
             return None
 
