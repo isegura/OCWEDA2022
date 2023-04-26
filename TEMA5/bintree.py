@@ -2,7 +2,7 @@
 # Implementation of Binary Tree
 # A node only saves the references to its children
 
-from TEMA2.slistHT import SList
+from queue import Queue
 
 
 class BinaryNode:
@@ -22,70 +22,15 @@ class BinaryNode:
         return str(self.elem)
 
 
-"""Auxiliary functions"""
-def _size(node: BinaryNode) -> int:
-    """return the size of the subtree from node"""
-    if node is None:
-        return 0
-    return 1 + _size(node.left) + _size(node.right)
-
-def _height(node: BinaryNode) -> int:
-    """returns the height of node"""
-    if node is None:
-        return -1
-
-    return 1 + max(_height(node.left), _height(node.right))
-
-def _preorder(node: BinaryNode) -> None:
-    """prints the preorder (root, left, right) traversal of the subtree
-    than hangs from node"""
-    if node is not None:
-        print(node.elem, end=' ')  # end=' ' avoid new line
-        _preorder(node.left)
-        _preorder(node.right)
-
-def _preorder_list(node: BinaryNode, pre_list: list) -> None:
-    """populates pre_list with the preorder traversal of the subtree node"""
-    if node is not None:
-        pre_list.append(node.elem)
-        _preorder_list(node.left, pre_list)
-        _preorder_list(node.right, pre_list)
-
-def _postorder(node: BinaryNode) -> None:
-    """prints the postorder (left, right, root) traversal of the subtree
-    than hangs from node"""
-    if node is not None:
-        _postorder(node.left)
-        _postorder(node.right)
-        print(node.elem, end=' ')  # end=' ' avoid new line
-
-def _postorder_list(node: BinaryNode, post_list: list) -> None:
-    """populates post_list with the postorder traversal of the subtree node"""
-    if node is not None:
-        _postorder_list(node.left, post_list)
-        _postorder_list(node.right, post_list)
-        post_list.append(node.elem)
-
-def _inorder(node: BinaryNode) -> None:
-    """prints the inorder (left, root, right) traversal of the subtree
-    than hangs from node"""
-    if node is not None:
-        _inorder(node.left)
-        print(node.elem, end=' ')  # end=' ' avoid new line
-        _inorder(node.right)
-
-def _inorder_list(node: BinaryNode, in_list: list) -> None:
-    """populates in_list with the inorder traversal of the subtree node"""
-    if node is not None:
-        _inorder_list(node.left, in_list)
-        in_list.append(node.elem)
-        _inorder_list(node.right, in_list)
-
 class BinaryTree:
     def __init__(self) -> None:
         """creates an empty binary input_tree
         I only has an attribute: _root"""
         self._root = None
+
+    @property
+    def root(self):
+        return self._root
 
     def __eq__(self, other_tree: 'BinaryTree') -> bool:
         """checks if two binary trees are equal o not"""
@@ -93,53 +38,111 @@ class BinaryTree:
 
     def size(self) -> int:
         """Returns the number of nodes"""
-        return _size(self._root)
+        return self.__size(self._root)
+
+    def __size(self, node: BinaryNode) -> int:
+        """return the size of the subtree from node"""
+        if node is None:
+            return 0
+        return 1 + self.__size(node.left) + self.__size(node.right)
 
     def height(self) -> int:
         """Returns the height of the input_tree"""
-        return _height(self._root)
+        return self.__height(self._root)
+
+    def __height(self, node: BinaryNode) -> int:
+        """returns the height of node"""
+        if node is None:
+            return -1
+
+        return 1 + max(self.__height(node.left), self.__height(node.right))
 
     def preorder(self) -> None:
         """prints the preorder (root, left, right) traversal of the input_tree"""
         # self.draw()
         print('Preorder traversal: ', end=' ')  # end=' ' avoid the newline
-        _preorder(self._root)
+        self.__preorder(self._root)
         print()
+
+    def __preorder(self, node: BinaryNode) -> None:
+        """prints the preorder (root, left, right) traversal of the subtree
+        than hangs from node"""
+        if node is not None:
+            print(node.elem, end=' ')  # end=' ' avoid new line
+            self.__preorder(node.left)
+            self.__preorder(node.right)
 
     def preorder_list(self) -> list:
         """returns a list with the preorder traversal"""
         # self.draw()
         result = []
-        _preorder_list(self._root, result)
+        self.__preorder_list(self._root, result)
         return result
+
+    def __preorder_list(self, node: BinaryNode, pre_list: list) -> None:
+        """populates pre_list with the preorder traversal of the subtree node"""
+        if node is not None:
+            pre_list.append(node.elem)
+            self.__preorder_list(node.left, pre_list)
+            self.__preorder_list(node.right, pre_list)
 
     def postorder(self) -> None:
         """prints the postorder (left, right, root)  traversal of the input_tree"""
         # self.draw()
         print('Postorder traversal: ', end=' ')  # end=' ' avoid the newline
-        _postorder(self._root)
+        self.__postorder(self._root)
         print()
+
+    def __postorder(self, node: BinaryNode) -> None:
+        """prints the postorder (left, right, root) traversal of the subtree
+        than hangs from node"""
+        if node is not None:
+            self.__postorder(node.left)
+            self.__postorder(node.right)
+            print(node.elem, end=' ')  # end=' ' avoid new line
 
     def postorder_list(self) -> list:
         """returns a list with the postorder traversal of the input_tree"""
         # self.draw()
         result = []
-        _postorder_list(self._root, result)
+        self.__postorder_list(self._root, result)
         return result
+
+    def __postorder_list(self, node: BinaryNode, post_list: list) -> None:
+        """populates post_list with the postorder traversal of the subtree node"""
+        if node is not None:
+            self.__postorder_list(node.left, post_list)
+            self.__postorder_list(node.right, post_list)
+            post_list.append(node.elem)
 
     def inorder(self) -> None:
         """prints the inorder (left, root, right)  traversal of the input_tree"""
         # self.draw()
         print('Inorder traversal: ', end=' ')  # end=' ' avoid the newline
-        _inorder(self._root)
+        self.__inorder(self._root)
         print()
 
     def inorder_list(self) -> list:
         """returns a list with the inorder traversal of the input_tree"""
         # self.draw()
         result = []
-        _inorder_list(self._root, result)
+        self.__inorder_list(self._root, result)
         return result
+
+    def __inorder(self, node: BinaryNode) -> None:
+        """prints the inorder (left, root, right) traversal of the subtree
+        than hangs from node"""
+        if node is not None:
+            self.__inorder(node.left)
+            print(node.elem, end=' ')  # end=' ' avoid new line
+            self.__inorder(node.right)
+
+    def __inorder_list(self, node: BinaryNode, in_list: list) -> None:
+        """populates in_list with the inorder traversal of the subtree node"""
+        if node is not None:
+            self.__inorder_list(node.left, in_list)
+            in_list.append(node.elem)
+            self.__inorder_list(node.right, in_list)
 
     def level_order(self) -> None:
         """prints the level order of the input_tree. O(n)"""
@@ -149,16 +152,15 @@ class BinaryTree:
             print("Level order: ", end=' ')  # avoid the new line
 
             # we can use SList with tail and head
-            list_nodes = SList()
-            list_nodes.add_last(self._root)
-            while len(list_nodes) > 0:  # loop will be executed the size of input_tree: n
-                current = list_nodes.remove_first()
+            queue_nodes = Queue()
+            queue_nodes.put(self._root)
+            while queue_nodes.qsize() > 0:  # loop will be executed the size of input_tree: n
+                current = queue_nodes.get()
                 print(current.elem, end=' ')
                 if current.left is not None:
-                    list_nodes.add_last(current.left)  # O(1)
+                    queue_nodes.put(current.left)  # O(1)
                 if current.right is not None:
-                    list_nodes.add_last(current.right)  # O(1)
-
+                    queue_nodes.put(current.right)  # O(1)
             print()
 
     def level_order_list(self) -> list:
@@ -166,19 +168,18 @@ class BinaryTree:
         result = []
         if self._root is not None:
             # we can use SList with tail and head
-            list_nodes = SList()
-            list_nodes.add_last(self._root)
+            queue_nodes = Queue()
+            queue_nodes.put(self._root)
 
-            while len(list_nodes) > 0:  # loop will be executed the size of input_tree: n
-                current = list_nodes.remove_first()  # O(1)
+            while queue_nodes.qsize() > 0:  # loop will be executed the size of input_tree: n
+                current = queue_nodes.get()  # O(1)
                 result.append(current.elem)
                 if current.left is not None:
-                    list_nodes.add_last(current.left)  # O(1)
+                    queue_nodes.put(current.left)  # O(1)
                 if current.right is not None:
-                    list_nodes.add_last(current.right)  # O(1)
+                    queue_nodes.put(current.right)  # O(1)
 
         return result
-
 
     def draw(self) -> None:
         """function to draw an input_tree. """
@@ -194,8 +195,7 @@ class BinaryTree:
             print(prefix + "|-- " + str(node.elem))
             self._draw(prefix + "     ", node.left, True)
 
-
-    def depth(self, node: BinaryNode) -> int:
+    def depth(self, node: BinaryNode) -> int or None:
         """ returns the depth of the node; this is the length from
         the root to the node"""
 
@@ -203,34 +203,23 @@ class BinaryTree:
             print('Error: the input_tree is empty')
             return None
 
-        # we can use SList with tail and head
         depth_level = 0
 
-        list_nodes = SList()
-        list_nodes.add_last(self._root)
+        queue_nodes = Queue()
+        queue_nodes.put(self._root)
 
-        while len(list_nodes) > 0:  # loop will be executed the size of input_tree: n
-            current = list_nodes.remove_first()  # O(1)
+        while queue_nodes.qsize() > 0:  # loop will be executed the size of input_tree: n
+            current = queue_nodes.get()  # O(1)
             if current == node:
                 return depth_level
             if current.left and node.elem < current.elem:
-                list_nodes.add_last(current.left)  # O(1)
+                queue_nodes.put(current.left)  # O(1)
             if current.right and node.elem > current.elem:
-                list_nodes.add_last(current.right)  # O(1)
+                queue_nodes.put(current.right)  # O(1)
             depth_level += 1
 
         print('Not found ', node.elem)
         return None
-
-    @property
-    def root(self):
-        return self._root
-
-
-# function to obta
-
-
-
 
 
 if __name__ == '__main__':
@@ -251,7 +240,6 @@ if __name__ == '__main__':
     # size, height
     print('Size of the input_tree:', tree.size())
     print('Height of the input_tree:', tree.height())
-    print('root of the input_tree:', _height(root))
     print()
 
     # traversals
