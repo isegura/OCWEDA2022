@@ -10,16 +10,16 @@ class BinarySearchTree(BinaryTree):
         """Returns the node whose elem is elem"""
         return self.__search(self._root, elem)
 
-    def __search(self, node: BinaryNode, elem: object) -> BinaryNode:
+    def _search(self, node: BinaryNode, elem: object) -> BinaryNode:
         """recursive function to search elem in the subtree node.
         Returns the node if elem exists, None eoc"""
         result = None
         if node is None or node.elem == elem:
             result = node
         elif elem < node.elem:
-            result = self.__search(node.left, elem)
+            result = self._search(node.left, elem)
         elif elem > node.elem:
-            result = self.__search(node.right, elem)
+            result = self._search(node.right, elem)
         return result
 
     def insert(self, elem: object) -> None:
@@ -135,10 +135,10 @@ if __name__ == "__main__":
     """
     tree1 = BinarySearchTree()
     input_list = [50, 55, 54, 20, 60, 15, 18, 5, 25, 24, 75, 80]
-    for x in input_list:
-        tree1.insert(x)
+    for m in input_list:
+        tree1.insert(m)
         # you can see the input_tree after each insertion
-        # print('after insert: ', x)
+        # print('after insert: ', m)
         # tree1.draw()
 
     # show the resulting input_tree
@@ -146,10 +146,10 @@ if __name__ == "__main__":
     
     # Test insert_iterative
     tree2 = BinarySearchTree()
-    for x in input_list:
-        tree2.insert_it(x)
+    for m in input_list:
+        tree2.insert_it(m)
         # you can see the input_tree after each insertion
-        # print('after insert: ', x)
+        # print('after insert: ', m)
         # tree2.draw()
 
     # show the resulting input_tree
@@ -160,8 +160,8 @@ if __name__ == "__main__":
 """
     """
     input_tree = BinarySearchTree()
-    for x in [18, 11, 23, 5, 15, 20, 24, 9, 22, 21, 6, 8, 7]:
-        input_tree.insert(x)
+    for m in [18, 11, 23, 5, 15, 20, 24, 9, 22, 21, 6, 8, 7]:
+        input_tree.insert(m)
     input_tree.draw()
     print('size:', input_tree.size())
     print('height:', input_tree.height())

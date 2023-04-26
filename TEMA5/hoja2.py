@@ -1,8 +1,5 @@
 from bst import BinarySearchTree
 from bintree import BinaryNode
-import bintree as bt
-import bst
-
 
 def get_smallest_ite(tree: BinarySearchTree) -> int:
     """returns the smallest element in input_tree. O(log n)"""
@@ -84,8 +81,6 @@ def _sum_elements_rec(node: BinaryNode) -> int or None:
         result = node.elem + _sum_elements_rec(node.left) + _sum_elements_rec(node.right)
     return result
 
-
-
 def array2bst(input_list: list) -> BinarySearchTree:
     """ gets a sorted list and creates a balanced bst"""
     result = BinarySearchTree()
@@ -111,6 +106,7 @@ def _array2bst2(input_list: list, tree: BinarySearchTree) -> None:
         _array2bst2(input_list[:index_mid], tree)
         _array2bst2(input_list[index_mid + 1:], tree)
 
+
 if __name__ == "__main__":
     input_tree = BinarySearchTree()
     values = [25, 20, 36, 10, 22, 30, 40, 5, 12, 28, 38, 48]
@@ -122,13 +118,21 @@ if __name__ == "__main__":
     assert get_smallest_ite(input_tree) == min(values)
 
     print("Smallest element: ", get_smallest_rec(input_tree))
-    print("Smallest element: ", get_smallest_rec(None))
     tree_empty = BinarySearchTree()
     print("Smallest element: ", get_smallest_rec(tree_empty))
     assert get_smallest_rec(input_tree) == min(values)
 
-    print("Greatest element: ", get_greatest_ite(None))
     print("Greatest element: ", get_greatest_ite(tree_empty))
     print("Greatest element: ", get_greatest_ite(input_tree))
     assert get_greatest_ite(input_tree) == max(values)
 
+    # Test array2bst
+    l_values = [1, 2, 3, 4, 5, 6, 7]
+    print(l_values)
+    tree1 = array2bst(l_values)
+    tree1.draw()
+    data = [4, 2, 6, 1, 3, 5, 7]
+    tree2 = BinarySearchTree()
+    for x in data:
+        tree2.insert(x)
+    assert tree1 == tree2
