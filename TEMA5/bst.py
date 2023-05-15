@@ -8,7 +8,7 @@ class BinarySearchTree(BinaryTree):
 
     def search(self, elem: object) -> BinaryNode:
         """Returns the node whose elem is elem"""
-        return self.__search(self._root, elem)
+        return self._search(self._root, elem)
 
     def _search(self, node: BinaryNode, elem: object) -> BinaryNode:
         """recursive function to search elem in the subtree node.
