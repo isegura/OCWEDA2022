@@ -6,49 +6,52 @@ from graph import Graph
 class Graph2(Graph):
     """ Graph2 is a Graph's subclass. In this class,
     we will implement the breadth-first and depth-first traversals
-    """ 
-    def bfs(self) -> None:
-        """This function prints all vertices of 
+    """
+
+    def bfs_full(self) -> list:
+        """This method returns a list containing all vertices of
         the graph by BFS traversal"""
-        print('bfs traversal:')
-        # Mark all the vertices as not visited 
+
+        # Mark all the vertices as not visited
         visited_vertex = {}
-        for vertex in self._vertices.keys():
-            visited_vertex[vertex] = False
+        for v in self._vertices.keys():
+            visited_vertex[v] = False
+        # the list that will save the BFS traversal of the whole graph
+        result = []
+        # This for forces to traverse all vertices in the graph
+        for v in self._vertices.keys():
+            if not visited_vertex[v]:
+                self.bfs(v, visited_vertex, result)
+        return result
 
-        for vertex in self._vertices.keys():
-            if not visited_vertex[vertex]:
-                self._bfs(vertex, visited_vertex)
-
-    def _bfs(self, vertex: object, visited_vertex: dict) -> None:
-        """This function prints the BFS traversal from the vertex
-        whose index is indexV."""
+    def bfs(self, vertex: object, visited_vertex: dict, list_traversal: list) -> None:
+        """This method saves the BFS traversal from v1 in the list
+         list_traversal."""
         
-        # Create a list for BFS.
         # It will save the indices of vertices to visit
-        queue = [] 
-        # mark the source vertex as visited
+        queue = []
+        # mark the source v1 as visited
         visited_vertex[vertex] = True
         # and enqueue it 
         queue.append(vertex)
         
         while queue: 
-            # Dequeue an index from queue and print its corresponding vertex(label)
+            # gets the first element
             s = queue.pop(0) 
-            # print (s, end = " ")
-            # we print the vertex, so we need to get its label
-            print(s, end=" ")
-
-            # Get all adjacent vertices of the dequeued index. 
-            # If an adjacent vertex has not been visited, 
+            # we print the v1, so we need to get its label
+            # print(s, end=" ")
+            list_traversal.append(s)
+            # Get all adjacent vertices of s
+            # If an adjacent v1 has not been visited,
             # then mark it visited and enqueue it 
-            for adj in self._vertices[s]: 
-                if not visited_vertex[adj.vertex]:
-                    queue.append(adj.vertex)
-                    visited_vertex[adj.vertex] = True
+            for adj in self._vertices[s]:
+                u = adj.vertex
+                if not visited_vertex[u]:
+                    queue.append(u)
+                    visited_vertex[u] = True
 
-    def dfs(self):
-        """This function prints all vertices of the graph
+    def dfs_full(self, strategy: str = 'recursive') -> list:
+        """This method return a list with all vertices of the graph
         by the DFS traversal."""
 
         print('dfs traversal:')
@@ -57,47 +60,55 @@ class Graph2(Graph):
         for vertex in self._vertices.keys():
             visited_vertex[vertex] = False
 
+        # the list that will save the DFS traversal
+        result = []
         for vertex in self._vertices.keys():
             if not visited_vertex[vertex]:
-                self._dfs(vertex, visited_vertex)
-                # self._dfs_iterative(vertex, visited_vertex)
+                if strategy == 'recursive':
+                    self.dfs(vertex, visited_vertex, result)
+                else:
+                    self.dfs_iterative(vertex, visited_vertex, result)
 
-    def _dfs_iterative(self, vertex: object, visited_vertex: dict) -> None:
+        return result
+
+    def dfs(self, vertex: object, visited_vertex: dict, list_traversal: list) -> None:
+        """This method saves the DFS traversal
+        from the v1 into list_traversal"""
+        # Mark the current node as visited and print it
+        visited_vertex[vertex] = True
+        # print(v1, end=' ')
+        list_traversal.append(vertex)
+
+        # Recur for all the vertices  adjacent to this v1
+        for adj in self._vertices[vertex]:
+            u = adj.vertex
+            if not visited_vertex[u]:
+                self.dfs(u, visited_vertex, list_traversal)
+
+    def dfs_iterative(self, vertex: object, visited_vertex: dict, list_traversal: list) -> None:
+        """This method saves the DFS traversal from v1 into list_traversal"""
+
         # we use a list as a stack. We add and remove always from the end (peak) of the list.
         stack = [vertex]
-        # mark the source vertex as visited
+        # mark the source v1 as visited
         visited_vertex[vertex] = True
 
         while len(stack) > 0:
             # remove the last added
             s = stack.pop()
             # print (s, end = " ")
-            # we print the vertex, so we need to get its label
-            print(s, end=" ")
+            list_traversal.append(s)
 
             # Get all adjacent vertices of the dequeued index.
-            # If an adjacent vertex has not been visited,
+            # If an adjacent v1 has not been visited,
             # then mark it visited and enqueue it
             for adj in reversed(self._vertices[s]):
                 # print(adj)
-                if not visited_vertex[adj.vertex]:
+                u = adj.vertex
+                if not visited_vertex[u]:
                     # we add at the end (peak) of the stack
-                    stack.append(adj.vertex)
-                    visited_vertex[adj.vertex] = True
-
-    def _dfs(self, vertex: object, visited_vertex: dict) -> None:
-        """This function prints the DFS traversal
-        from the vertex whose index is indexV"""
-        # Mark the current node as visited and print it
-        visited_vertex[vertex] = True
-        # print(vertex, end = ' ')
-        # Instead of printing the index, we have to print its label
-        print(vertex, end=' ')
-        # Recur for all the vertices  adjacent to this vertex
-        for adj in self._vertices[vertex]:
-            if not visited_vertex[adj.vertex]:
-                # self._dfs(adj.vertex, visited_vertex)
-                self._dfs_iterative(adj.vertex, visited_vertex)
+                    stack.append(u)
+                    visited_vertex[u] = True
 
 
 if __name__ == '__main__':
@@ -117,30 +128,28 @@ if __name__ == '__main__':
     g.add_edge('E', 'A', 7)   # E->(7)A
 
     print(g)
-    print()
+    print("BFS traversal:", g.bfs_full())
+    print("DFS traversal:", g.dfs_full())
 
-    g.bfs()
-    print()
+    for v1 in labels:
 
-    label = 'C'
-    # Mark all the vertices as not visited 
-    visited = {}
-    for v in labels:
-        visited[v] = False
+        result_bfs = []
+        visited = dict.fromkeys(labels, False)
 
-    print('bfs traversal from ', label)
-    # we have to pass the index of the vertex
-    g._bfs(label, visited)
-    print()
+        g.bfs(v1, visited, result_bfs)
+        print("BFS traversal from {}: {}".format(v1, result_bfs))
 
-    label = 'E'
-    visited = {}
-    for v in labels:
-        visited[v] = False
-    print('bfs traversal from ', label)
-    # we have to pass the index of the vertex
-    g._bfs(label, visited)
+        visited = dict.fromkeys(labels, False)
+        result_dfs_rec = []
+        g.dfs(v1, visited, result_dfs_rec)
+        print("BFS traversal from {}: {}".format(v1, result_dfs_rec))
 
+        visited = dict.fromkeys(labels, False)
+        result_dfs_it = []
+        g.dfs_iterative(v1, visited, result_dfs_it)
+        print("BFS traversal from {}: {}".format(v1, result_dfs_it))
+
+        print()
     # We use the implementation to represent an undirected graph without weights :
     # <img src='https://computersciencesource.files.wordpress.com/2010/05/dfs_1.png' width='35%'/>
 
@@ -155,17 +164,6 @@ if __name__ == '__main__':
 
     print(g)
 
-    print('bfs traversal from A (A is the first vertex):')
-    g.bfs()
-    print()
-    label = 'E'
-    visited = {}
-    for v in labels:
-        visited[v] = False
-    print('bfs traversal from ', label)
-    # we have to pass the index of the vertex
-    g._bfs(label, visited)
-
     # we use this dictionary to represent the vertices with numbers:
     labels = ['A', 'B', 'C', 'D', 'E']
     g = Graph2(labels)
@@ -179,23 +177,4 @@ if __name__ == '__main__':
     g.add_edge('E', 'A', 7)  # E->(7)A
 
     print(g)
-    print()
 
-    g.dfs()
-    print()
-    print()
-
-    for origin in g._vertices.keys():
-        visited = {}
-        for v in labels:
-            visited[v] = False
-        print('dfs traversal from ', origin)
-        g._dfs(origin, visited)
-
-        visited = {}
-        for v in labels:
-            visited[v] = False
-
-        print('\ndfs (iterative) traversal from ', origin)
-        g._dfs_iterative(origin, visited)
-        print('\n\n')
