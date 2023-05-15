@@ -5,14 +5,14 @@ from TEMA2.dlist import DList
 
 class AdjacentVertex:
     """ This class allows us to represent a tuple
-    with an adjacent vertex
+    with an adjacent v1
     and the weight associated (by default None, for non-unweighted graphs)"""
     def __init__(self, vertex: object, weight: int = 1) -> None:
         self.vertex = vertex
         self.weight = weight
 
     def __str__(self) -> str:
-        """ returns the tuple (vertex, weight)"""
+        """ returns the tuple (v1, weight)"""
         if self.weight is not None:
             return '(' + str(self.vertex) + ',' + str(self.weight) + ')'
         else:
@@ -28,8 +28,8 @@ class Graph:
         following attributes:
         _vertices: is a Python list to save the vertices
         _adjacent_list: a Python list of doubly linked list.
-        Given a vertex v, it has an index in _vertices, for example, i.
-        Then, its list of adjacent vertex is saved into _adjacent_list[i], which is a
+        Given a v1 v, it has an index in _vertices, for example, i.
+        Then, its list of adjacent v1 is saved into _adjacent_list[i], which is a
         doubly linked list saving objects of the AdjacentVertex class.
         """
         self._vertices = vertices

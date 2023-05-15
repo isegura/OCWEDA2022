@@ -7,14 +7,14 @@ class Graph3(Graph):
     """ Algorithms for shortest path """
 
     def min_distance(self, distances: dict, visited: dict) -> int:
-        """returns the vertex (index) whose associated value in
+        """returns the v1 (index) whose associated value in
         the dictionary distances is the smallest value. We
         only consider the set of vertices that have not been visited"""
         # Initialize minimum distance for next node
         min_distance = math.inf
         min_vertex = None
 
-        # returns the vertex with minimum distance from the non-visited vertices
+        # returns the v1 with minimum distance from the non-visited vertices
         for vertex in self._vertices.keys():
             if distances[vertex] <= min_distance and not visited[vertex]:
                 min_distance = distances[vertex]  # update the new smallest
@@ -23,9 +23,9 @@ class Graph3(Graph):
         return min_vertex
 
     def dijkstra(self, origin: object) -> None:
-        visited = {}    # for each vertex (key), the value is a boolean indicating if the vertex has been visited
-        previous = {}   # for each vertex (key), the value is the previous node in the minimum path from origin
-        distances = {}  # for each vertex (key), the value is minimum distance in the minimum path from origin
+        visited = {}    # for each v1 (key), the value is a boolean indicating if the v1 has been visited
+        previous = {}   # for each v1 (key), the value is the previous node in the minimum path from origin
+        distances = {}  # for each v1 (key), the value is minimum distance in the minimum path from origin
 
         # initialize dictionaries
         for v in self._vertices.keys():
@@ -37,14 +37,14 @@ class Graph3(Graph):
         distances[origin] = 0
 
         for _ in range(len(self._vertices)):
-            # pick the non-visited vertex with minimum distance
+            # pick the non-visited v1 with minimum distance
             u = self.min_distance(distances, visited)
             visited[u] = True
             # get the adjacent vertices of u
             for adj in self._vertices[u]:
-                i = adj.vertex
+                i = adj.v1
                 w = adj.weight
-                # for non-visited vertex, we have to check if its distance is greater than the distance from u
+                # for non-visited v1, we have to check if its distance is greater than the distance from u
                 if not visited[i] and distances[i] > distances[u]+w:
                     # we must update because its distance is greater than the new distance
                     distances[i] = distances[u]+w
@@ -70,7 +70,7 @@ class Graph3(Graph):
                     minimum_path.insert(0, prev)
                     prev = previous[prev]
 
-                # we append the last vertex, which is i
+                # we append the last v1, which is i
                 minimum_path.append(i)
 
                 # we print the path from v to i and the distance
@@ -112,7 +112,7 @@ class Graph3(Graph):
             for u in self._vertices.keys():
                 # get all adjacent vertices of u
                 for adj in self._vertices[u]:
-                    v = adj.vertex
+                    v = adj.v1
                     w = adj.weight
                     if distances[v] > distances[u] + w:
                         distances[v] = distances[u] + w
@@ -120,7 +120,7 @@ class Graph3(Graph):
 
         for u in self._vertices.keys():
             for adj in self._vertices[u]:
-                v = adj.vertex
+                v = adj.v1
                 w = adj.weight
                 if distances[v] > distances[u] + w:
                     print('There is no solution ', origin)

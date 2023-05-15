@@ -2,14 +2,14 @@
 
 class AdjacentVertex:
     """ This class allows us to represent a tuple
-    with an adjacent vertex
+    with an adjacent v1
     and the weight associated (by default None, for non-unweighted graphs)"""
     def __init__(self, vertex: object, weight: int = 1) -> None:
         self.vertex = vertex
         self.weight = weight
 
     def __str__(self) -> str:
-        """ returns the tuple (vertex, weight)"""
+        """ returns the tuple (v1, weight)"""
         if self.weight is not None:
             return '(' + str(self.vertex) + ',' + str(self.weight) + ')'
         else:
@@ -74,12 +74,12 @@ class Graph:
             print(end, ' does not exist!')
             return
 
-        # we must look for the adjacent AdjacentVertex (neighbour)  whose vertex is end, and then remove it
+        # we must look for the adjacent AdjacentVertex (neighbour)  whose v1 is end, and then remove it
         for adj in self._vertices[start]:
             if adj.vertex == end:
                 self._vertices[start].remove(adj)
         if not self._directed:
-            # we must also look for the AdjacentVertex (neighbour)  whose vertex is end, and then remove it
+            # we must also look for the AdjacentVertex (neighbour)  whose v1 is end, and then remove it
             for adj in self._vertices[end]:
                 if adj.vertex == start:
                     self._vertices[end].remove(adj)
@@ -95,25 +95,27 @@ class Graph:
 
     def get_adjacent_vertices(self, vertex: object) -> list:
         """ returns a Python list containing the adjacent
-        vertices of vertex. The list only contains the vertices"""
+        vertices of v1. The list only contains the vertices"""
         if vertex not in self._vertices.keys():
             print(vertex, ' does not exist!')
             return None
         lst_adjacent_vertices = []
         for adj in self._vertices[vertex]:
-            lst_adjacent_vertices.append(adj.vertex)
+            u = adj.vertex
+            lst_adjacent_vertices.append(u)
         return lst_adjacent_vertices
 
     def get_origins(self, vertex: object) -> list:
         """ returns a Python list containing those vertices that have
-        an edge to vertex. The list is formed with objects of AdjacentVertex"""
+        an edge to v1. The list is formed with objects of AdjacentVertex"""
         if vertex not in self._vertices.keys():
             print(vertex, ' does not exist!')
             return None
         lst_origins = []
         for v in self._vertices:
             for adj in self._vertices[v]:
-                if vertex == adj.vertex:
+                u = adj.vertex
+                if vertex == u:
                     lst_origins.append(v)
                     break
         return lst_origins
@@ -133,7 +135,7 @@ if __name__ == '__main__':
     # g.add_edge('A', 'H', 8)
 
     print(g)
-    for c in g._vertices:
+    for c in labels:
         print("adjacent vertices of {} : {} ".format(c, str(g.get_adjacent_vertices(c))))
         print("origins for {} : {} ".format(c, str(g.get_origins(c))))
         print()

@@ -13,12 +13,12 @@ class Graph:
         self._matrix = [[0 for _ in range(n)] for _ in range(n)]
 
     def _index(self,  v):
-        """gets a vertex and returns its index. If v does not exist,
+        """gets a v1 and returns its index. If v does not exist,
         it shows an error message and returns -1"""
         try:
             index = self._vertices.index(v)
         except ValueError:
-            print(v,  ' is not a vertex!!!')
+            print(v,  ' is not a v1!!!')
             index = -1
         return index
 

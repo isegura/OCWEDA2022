@@ -14,7 +14,7 @@ class Graph4(Graph):
         visited[vertex] = True
         for adj in self._vertices[vertex]:
             # adj is an object of AdjacentVertex
-            adj_vertex = adj.vertex
+            adj_vertex = adj.v1
             if not visited[adj_vertex]:
                 self._dfs(adj_vertex, visited)
 
@@ -25,24 +25,24 @@ class Graph4(Graph):
             u = queue.pop(0)
             for adj in self._vertices[u]:
                 # remember that adj is an AdjacentVertex
-                if not visited[adj.vertex]:
-                    queue.append(adj.vertex)
-                    visited[adj.vertex] = True
+                if not visited[adj.v1]:
+                    queue.append(adj.v1)
+                    visited[adj.v1] = True
 
     def non_accessible(self, vertex: str) -> list:
-        """gets a vertex and returns the list of vertices
-        that cannot be reached from vertex, that is, there is no path
-        from vertex to these vertices"""
+        """gets a v1 and returns the list of vertices
+        that cannot be reached from v1, that is, there is no path
+        from v1 to these vertices"""
         # First, we need to obtain all vertices that can be
-        # reached from vertex. To do this, we can apply
+        # reached from v1. To do this, we can apply
         # the algorithms of dfs or bfs
         visited = {}
         for v1 in self._vertices:
             visited[v1] = False
         self._dfs(vertex, visited)
         # The function _dfs will visit all vertices reachable
-        # from vertex. Therefore, the non-visited vertices
-        # will form the list of non-accessible vertices from vertex
+        # from v1. Therefore, the non-visited vertices
+        # will form the list of non-accessible vertices from v1
         result = []  # list with the non-accessible vertices
         for v1 in self._vertices:
             if not visited[v1]:
@@ -51,11 +51,11 @@ class Graph4(Graph):
         return result
 
     def get_reachable(self, vertex: str, alg: str = '_dfs') -> list:
-        """gets a vertex and returns the list of vertices
-        that can be reached from vertex, that is, there is a path
-        from vertex to these vertices"""
+        """gets a v1 and returns the list of vertices
+        that can be reached from v1, that is, there is a path
+        from v1 to these vertices"""
         # First, we need to obtain all vertices that can be
-        # reached from vertex. To do this, we can apply
+        # reached from v1. To do this, we can apply
         # the algorithms of dfs or bfs
         visited = {}
         for v1 in self._vertices:
@@ -66,8 +66,8 @@ class Graph4(Graph):
             self._bfs(vertex, visited)
 
         # The function _dfs will visit all vertices reachable
-        # from vertex. Therefore, the visited vertices
-        # will form the list of accessible vertices from vertex
+        # from v1. Therefore, the visited vertices
+        # will form the list of accessible vertices from v1
         result = []  # list with the accessible vertices
         for v1 in self._vertices:
             if visited[v1]:
@@ -84,7 +84,7 @@ class Graph4(Graph):
         while len(queue):
             u = queue.pop(0)
             for adj in self._vertices[u]:
-                adj_vertex = adj.vertex
+                adj_vertex = adj.v1
                 if color[adj_vertex] is None:
                     color[adj_vertex] = 1 - color[u]
                     queue.append(adj_vertex)
@@ -100,14 +100,14 @@ class Graph4(Graph):
         """ returns True if the graph is bipartite and False eoc
         A graph is bipartite is a graph whose vertices can be divided
         into two independent sets, U and V
-        such that every edge (u, v) either connects a vertex
-        from U to V or a vertex from V to U.
+        such that every edge (u, v) either connects a v1
+        from U to V or a v1 from V to U.
         In other words, for every edge (u, v), either u belongs to U and v to V,
          or u belongs to V and v to U. We can also say that there is no edge
          that connects vertices of same set. """
         color = {}
         # We use a dictionary color to save the color
-        # assigned to each vertex: 1 means first color (origins)
+        # assigned to each v1: 1 means first color (origins)
         # , 0 means second color (target)
         for v1 in self._vertices:
             color[v1] = None
@@ -121,11 +121,11 @@ class Graph4(Graph):
 
     def _has_cycles_bfs(self, vertex: str, visited: dict) -> bool:
         """This is function is based on bfs to detect if there is
-        some cycle in the breadth traversal from vertex. It uses the dictionary
+        some cycle in the breadth traversal from v1. It uses the dictionary
         visited and the parent of the vertices to detect
-        cycle in subgraph reachable from vertex v."""
+        cycle in subgraph reachable from v1 v."""
 
-        # Mark the current vertex as visited
+        # Mark the current v1 as visited
         queue = [vertex]
         parents = {}
         for v1 in self._vertices:
@@ -135,14 +135,14 @@ class Graph4(Graph):
             s = queue.pop(0)
             visited[s] = True
             for adj in self._vertices[s]:
-                adj_vertex = adj.vertex
+                adj_vertex = adj.v1
                 if not visited[adj_vertex]:
                     visited[adj_vertex] = True
                     queue.append(adj_vertex)
                     parents[adj_vertex] = s
                 elif parents[s] != adj_vertex:
                     # if the ajd_vertex has been already visited,
-                    # and it is not the parent of current vertex,
+                    # and it is not the parent of current v1,
                     # then there is a cycle
                     return True
         return False
@@ -150,21 +150,21 @@ class Graph4(Graph):
     def _has_cycles_dfs(self, vertex: str, visited: dict, parent: str) -> bool:
         """This is recursive function that uses the dictionary
         visited and the parent of the vertices to detect
-        cycle in subgraph reachable from vertex v."""
+        cycle in subgraph reachable from v1 v."""
 
-        # Mark the current vertex as visited
+        # Mark the current v1 as visited
         visited[vertex] = True
         # Recur for all the vertices
-        # adjacent to this vertex
+        # adjacent to this v1
         for adj in self._vertices[vertex]:
-            adj_vertex = adj.vertex
+            adj_vertex = adj.v1
             # If the node is not visited then recurse on it
             if not visited[adj_vertex]:
                 if self._has_cycles_dfs(adj_vertex, visited, vertex):
                     return True
             elif parent != adj_vertex:
                 # if the ajd_vertex has been already visited,
-                # and it is not the parent of current vertex,
+                # and it is not the parent of current v1,
                 # then there is a cycle
                 return True
         print()
@@ -173,15 +173,15 @@ class Graph4(Graph):
     def _has_cycles_directed(self, vertex: str, visited: dict, rec_stack: dict) -> bool:
         """detects a cycle in a directed graph using the
         dfs alg. Moreover, visited and rec_stack allow us
-        to detect if a vertex has been previously visited."""
+        to detect if a v1 has been previously visited."""
 
-        # Mark the current vertex as visited
+        # Mark the current v1 as visited
         visited[vertex] = True
         rec_stack[vertex] = True
         # Recur for all the vertices
-        # adjacent to this vertex
+        # adjacent to this v1
         for adj in self._vertices[vertex]:
-            adj_vertex = adj.vertex
+            adj_vertex = adj.v1
             # If the node is not visited then recurse on it
             if not visited[adj_vertex]:
                 if self._has_cycles_directed(adj_vertex, visited, rec_stack):
@@ -268,7 +268,7 @@ if __name__ == '__main__':
     g.add_edge("G", "H")
     print(g)
 
-    # now, we show the non-accessible vertices for each vertex in the graph
+    # now, we show the non-accessible vertices for each v1 in the graph
     for v in g._vertices:
         list_non_accessible = g.non_accessible(v)
         print("non-accessible from {}:{} ".format(v, list_non_accessible))

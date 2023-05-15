@@ -16,12 +16,12 @@ class GraphMatrix:
         self._matrix = [[0 for _ in range(n)] for _ in range(n)]
 
     def _index(self, v: object) -> int:
-        """ gets a vertex and returns its index.
+        """ gets a v1 and returns its index.
         If v does not exist, it shows an error message and returns -1"""
         try:
             index = self._vertices.index(v)
         except ValueError:
-            print(v, ' is not a vertex!!!')
+            print(v, ' is not a v1!!!')
             index = -1
         return index
 
@@ -61,10 +61,10 @@ class GraphMatrix:
 
     def get_adjacent_vertices(self, vertex):
         """ returns a Python list that contains the adjacent vertices
-        of vertex. The list only contains the vertices"""
+        of v1. The list only contains the vertices"""
         index = self._index(vertex)
         if index == -1:
-            # vertex does not exist
+            # v1 does not exist
             return None
         lst_adjacents = []
         for j in range(len(self._vertices)):
@@ -74,10 +74,10 @@ class GraphMatrix:
 
     def get_origins(self, vertex):
         """ returns a Python list that contains those vertices that have
-         and edge to vertex. The list only contains the vertices"""
+         and edge to v1. The list only contains the vertices"""
         index = self._index(vertex)
         if index == -1:
-            # vertex does not exist
+            # v1 does not exist
             return None
         lst_origins = []
         for j in range(len(self._vertices)):
