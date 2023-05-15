@@ -76,6 +76,29 @@ class Graph3(Graph):
                 # we print the path from v to i and the distance
                 print(origin, '->', i, ":", minimum_path, distances[i])
 
+    def minimum_path(self, start: object, end: object) -> list:
+        """ returns a list containing the path from star to end.
+        It also returns the distance of the path. If the path
+        does not exist, it returns an empty list and infinitum"""
+        if start not in self._vertices.keys():
+            print(start, ' does not exist!!!')
+            return None, None
+        if end not in self._vertices.keys():
+            print(end, ' does not exist!!!')
+            return None, None
+
+        distances, previous = self.dijkstra(start)
+        if distances[end] == math.inf:
+            return [], math.inf
+
+        result = [end]
+        prev = previous[end]
+        while prev is not None:
+            result.insert(0, prev)
+            prev = previous[prev]
+
+        return result, distances[end]
+
     def bellmanford(self, origin: object) -> None:
         """Bellman-Ford algorithm for minimum path"""
         previous = {}
@@ -105,28 +128,6 @@ class Graph3(Graph):
 
         self.print_solution(distances, previous, origin)
 
-    def minimum_path(self, start: object, end: object) -> list:
-        """ returns a list containing the path from star to end.
-        It also returns the distance of the path. If the path
-        does not exist, it returns an empty list and infinitum"""
-        if start not in self._vertices.keys():
-            print(start, ' does not exist!!!')
-            return None, None
-        if end not in self._vertices.keys():
-            print(end, ' does not exist!!!')
-            return None, None
-
-        distances, previous = self.dijkstra(start)
-        if distances[end] == math.inf:
-            return [], math.inf
-
-        result = [end]
-        prev = previous[end]
-        while prev is not None:
-            result.insert(0, prev)
-            prev = previous[prev]
-
-        return result, distances[end]
 
 if __name__ == '__main__':
     # Now, we use the implementation to represent this graph:
