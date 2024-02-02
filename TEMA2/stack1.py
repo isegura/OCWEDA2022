@@ -8,23 +8,23 @@ class Stack1:
     def __init__(self) -> None:
         """Create an empty stack. We will use an array (Python list)
         to save the elements of the stack"""
-        self._items = []
+        self.__items = []
 
     def __len__(self) -> int:
         """Returns the number of elements in the stack"""
-        return len(self._items)
+        return len(self.__items)
 
     def is_empty(self) -> bool:
         """Returns True if the stack is empty, False eoc"""
-        return len(self._items) == 0
+        return len(self.__items) == 0
 
     def __str__(self) -> str:
         """Returns a string with the elements of the stack"""
-        return str(self._items)
+        return str(self.__items)
 
     def push(self, e: object) -> None:
         """Adds the element e to the top of the stack"""
-        self._items.append(e)
+        self.__items.append(e)
 
     def pop(self) -> object:
         """Removes and returns the element from the top of the stack"""
@@ -32,7 +32,7 @@ class Stack1:
             print('Error: Stack is empty')
             return None
 
-        return self._items.pop()  # removes last item from the list
+        return self.__items.pop()  # removes last item from the list
   
     def top(self) -> object:
         """Returns the element from the top of the stack"""
@@ -41,7 +41,7 @@ class Stack1:
             return None
 
         # returns last element in the list
-        return self._items[-1]
+        return self.__items[-1]
 
 
 if __name__ == '__main__':
