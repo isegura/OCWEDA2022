@@ -9,11 +9,11 @@ class Queue:
   
     def __init__(self) -> None:
         """Create an empty queue"""
-        self._items = []
+        self.__items = []
 
     def __len__(self) -> int:
         """Returns the number of elements in the queue"""
-        return len(self._items)
+        return len(self.__items)
 
     def is_empty(self) -> bool:
         """Returns True if the queue is empty"""
@@ -21,29 +21,38 @@ class Queue:
 
     def __str__(self) -> str:
         """Returns a string with the elements of the queue"""
-        return str(self._items)
+        return str(self.__items)
 
     def enqueue(self, e: object) -> None:
         """Adds the element e to the tail of the queue"""
-        self._items.append(e)
+        self.__items.append(e)
 
-    def dequeue(self):
+    def dequeue(self) -> object:
         """Removes and returns the first element in the queue"""
         if self.is_empty():
             print('Error: Queue is empty')
             return None
 
         # remove first item from the list
-        return self._items.pop(0)
+        return self.__items.pop(0)
 
-    def front(self):
+    def first(self) -> object:
         """Return the first element in the queue"""
         if self.is_empty():
             print('Error: Queue is empty')
             return None
 
         # returns first element in the list
-        return self._items[0]
+        return self.__items[0]
+
+    def last(self) -> object:
+        """Return the last element in the queue"""
+        if self.is_empty():
+            print('Error: Queue is empty')
+            return None
+
+        # returns last element in the list
+        return self.__items[-1]
 
 
 if __name__ == '__main__':
