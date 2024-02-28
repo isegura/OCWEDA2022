@@ -3,7 +3,7 @@ import random
 
 
 class DNode:
-    def __init__(self, e: object, prev_node: 'DNode' = None, next_node: 'DNode' = None):
+    def __init__(self, e: object, prev_node: 'DNode' = None, next_node: 'DNode' = None) -> None:
         self.elem = e
         self.next = next_node
         self.prev = prev_node
