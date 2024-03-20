@@ -204,20 +204,23 @@ class BinaryTree:
             print('Error: the input_tree is empty')
             return None
 
-        depth_level = 0
-
+        if node is None:
+            print('node cannot be None')
+            return None
+        
         queue_nodes = Queue()
-        queue_nodes.put(self._root)
+        queue_nodes.put((self._root, 0))    # save a tuple with the root node and its level (which is 0)
 
-        while queue_nodes.qsize() > 0:  # loop will be executed the size of input_tree: n
-            current = queue_nodes.get()  # O(1)
+        while queue_nodes.qsize() > 0:      # loop will be executed while the queue has nodes
+            tupla = queue_nodes.get()  # get O(1)
+            current = tupla[0] # get the node
+            level = tupla[1] # get the level of this node
             if current == node:
-                return depth_level
-            if current.left and node.elem < current.elem:
-                queue_nodes.put(current.left)  # O(1)
-            if current.right and node.elem > current.elem:
-                queue_nodes.put(current.right)  # O(1)
-            depth_level += 1
+                return level
+            if current.left:
+                queue_nodes.put((current.left, level + 1))  # save its left child with its level. put has O(1)
+            if current.right:
+                queue_nodes.put((current.right, level + 1))  # save its right child with its level. put has O(1)
 
         print('Not found ', node.elem)
         return None
