@@ -60,7 +60,6 @@ class BinaryTree:
 
     def preorder(self) -> None:
         """prints the preorder (root, left, right) traversal of the input_tree"""
-        # self.draw()
         print('Preorder traversal: ', end=' ')  # end=' ' avoid the newline
         self.__preorder(self._root)
         print()
