@@ -195,35 +195,7 @@ class BinaryTree:
             print(prefix + "|-- " + str(node.elem))
             self._draw(prefix + "     ", node.left, True)
 
-    def depth(self, node: BinaryNode) -> int or None:
-        """ returns the depth of the node; this is the length from
-        the root to the node"""
-
-        if self._root is None:
-            print('Error: the input_tree is empty')
-            return None
-
-        if node is None:
-            print('node cannot be None')
-            return None
-        
-        queue_nodes = Queue()
-        queue_nodes.put((self._root, 0))    # save a tuple with the root node and its level (which is 0)
-
-        while queue_nodes.qsize() > 0:      # loop will be executed while the queue has nodes
-            tupla = queue_nodes.get()  # get O(1)
-            current = tupla[0] # get the node
-            level = tupla[1] # get the level of this node
-            if current == node:
-                return level
-            if current.left:
-                queue_nodes.put((current.left, level + 1))  # save its left child with its level. put has O(1)
-            if current.right:
-                queue_nodes.put((current.right, level + 1))  # save its right child with its level. put has O(1)
-
-        print('Not found ', node.elem)
-        return None
-
+   
 
 if __name__ == '__main__':
     tree = BinaryTree()
