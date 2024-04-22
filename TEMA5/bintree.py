@@ -181,6 +181,53 @@ class BinaryTree:
 
         return result
 
+    def get_depth(self, elem: int) -> int:
+        """gets elem, and returns the level of its nodes.
+         If elem does not exist in the tree, it returns -1.
+         Time complexity: O(n), best case: root empty or elem == root.elem, O(1)
+         worst case: elem does not exist into the list, because we have to traverse all nodes: O(1)
+         Space complexity: n (tree) + n (queue_nodes) = 2n """
+        if self._root is not None:
+            # we can use SList with tail and head
+            queue_nodes = Queue()
+            # save the root and its level
+            queue_nodes.put((self._root, 0))
+
+            while queue_nodes.qsize() > 0:  # loop will be executed the size of input_tree: n
+                current_tuple = queue_nodes.get()  # O(1)
+
+                current = current_tuple[0]  # the first element of the tuple is the node
+                level = current_tuple[1]    # the second element of the tuple is the level
+
+                if current.elem == elem:
+                    return level
+
+                if current.left is not None:
+                    queue_nodes.put((current.left, level+1))  # O(1)
+                if current.right is not None:
+                    queue_nodes.put((current.right, level+1))  # O(1)
+
+        return -1
+
+    def get_depth_rec(self, elem: int) -> int:
+        """recursive method to get the depth of an element.
+        If elem does not exist, it returns -1
+        """
+        return self._get_depth_rec(elem, self._root, 0)
+
+    def _get_depth_rec(self, elem: int, node: BinaryNode, level: int) -> (int or None):
+        if node is None:
+            return None
+        if node.elem == elem:
+            return level
+        left_level = self._get_depth_rec(elem, node.left, level+1)
+        if left_level != -1:
+            # we have found it in its left subtree
+            return left_level
+        # As the element was not found in the left subtree,
+        # we also have to search it in the right subtree
+        return self._get_depth_rec(elem, node.right, level+1)
+
     def draw(self) -> None:
         """function to draw an input_tree. """
         if self._root:
@@ -195,7 +242,6 @@ class BinaryTree:
             print(prefix + "|-- " + str(node.elem))
             self._draw(prefix + "     ", node.left, True)
 
-   
 
 if __name__ == '__main__':
     tree = BinaryTree()
@@ -230,9 +276,3 @@ if __name__ == '__main__':
     print("Level order:", tree.level_order_list())
     print()
 
-    # depth of some nodes
-    print('depth of root:', tree.depth(root))
-    print('depth of root.left:', tree.depth(left))
-    print('depth of root.right:', tree.depth(right))
-    print('depth of root.right.left:', tree.depth(right.left))
-    print('depth of root.right.right.right:', tree.depth(rrNode.right), rrNode.right.elem)
