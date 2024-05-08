@@ -16,23 +16,23 @@ class AVLTree(BinarySearchTree):
     # Override insert method from base class to keep it as AVL
     def insert(self, elem: object) -> None:
         """inserts a new node, with key and element elem"""
-        self._root = self.__insert(self._root, elem)
+        self._root = self._insert(self._root, elem)
 
-    def __insert(self, node: BinaryNode, elem: object) -> BinaryNode:
+    def _insert(self, node: BinaryNode, elem: object) -> BinaryNode:
         node = super()._insert(node, elem)
-        node = self.__balance(node)
+        node = self._balance(node)
         return node
 
     # Override remove method from base class to keep it as AVL
     def remove(self, elem: object) -> None:
-        self._root = self.__remove(self._root, elem)
+        self._root = self._remove(self._root, elem)
 
-    def __remove(self, node: BinaryNode, elem: object) -> BinaryNode:
+    def _remove(self, node: BinaryNode, elem: object) -> BinaryNode:
         node = super()._remove(node, elem)
-        node = self.__balance(node)
+        node = self._balance(node)
         return node
 
-    def __balance(self, node: BinaryNode) -> BinaryNode:
+    def _balance(self, node: BinaryNode) -> BinaryNode:
         # O(log n)
         if abs(self.balance_factor(node)) <= 1:
             return node  # the node is already balanced, we do nothing
@@ -50,21 +50,21 @@ class AVLTree(BinarySearchTree):
             height_left_right = self._height(node.left.right)
             if height_left_left < height_left_right:  
                 # print(' double first left rotation on: ', node.elem)
-                node.left = self.__left_rotate(node.left)
+                node.left = self._left_rotate(node.left)
             # print('right rotation on ', node.elem)
-            node = self.__right_rotate(node)
+            node = self._right_rotate(node)
         else:  
             # left rotate
             height_right_left = self._height(node.right.left)
             height_right_right = self._height(node.right.right)
             if height_right_right < height_right_left:  # double rotation (right - left)
                 # print(' double first right rotation on: ', node.elem)
-                node.right = self.__right_rotate(node.right)
+                node.right = self._right_rotate(node.right)
             # print('left rotation on ', node.elem)
-            node = self.__left_rotate(node)
+            node = self._left_rotate(node)
         return node
 
-    def __right_rotate(self, node: BinaryNode) -> BinaryNode:
+    def _right_rotate(self, node: BinaryNode) -> BinaryNode:
         """balance node by right rotation """
         # its child left becomes the new root (and we will return it)
         new_root = node.left  # it will be the new root
@@ -77,7 +77,7 @@ class AVLTree(BinarySearchTree):
         # print(new_root.left.elem,new_root.elem,new_root.right.elem)
         return new_root
 
-    def __left_rotate(self, node: BinaryNode) -> BinaryNode:
+    def _left_rotate(self, node: BinaryNode) -> BinaryNode:
         """balance node applying left rotation"""
         # print("left rotation on ", node.key)
         # its right child becomes the new root of the subtree
