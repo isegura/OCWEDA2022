@@ -48,6 +48,7 @@ class DList:
         """Adds a new element, e, at the beginning of the list"""
         # create the new node
         new_node = DNode(e)
+        new_node.next = self._head
         # the new node must point to the current head
         if self.is_empty():
             self._tail = new_node
