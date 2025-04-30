@@ -195,15 +195,15 @@ class Graph:
             return []
 
         result = []     # lista para el recorrido dfs desde start
-        queue = DList() # lista como pila
         # diccionario para marcar los vértices que ya se han visitado
         visited = dict.fromkeys(self._vertices.keys(), False)
-        # añadimos start a la cola, y lo marcamos como visitados
-        queue.add_last(start)
+        stack = []  # lista como pila
+        # añadimos start a la pila, y lo marcamos como visitados
+        stack = [start]
         visited[start] = True
-        while len(queue) > 0:
-            # sacamos el último que entro en la pila
-            v = queue.remove_last()
+        while len(stack) > 0:
+            # desapilamos: el último que entroen la pila
+            v = stack.pop()
             # lo añadimos al recorrido
             result.append(v)
             # recuperamos sus adyacentes
@@ -211,7 +211,7 @@ class Graph:
                 # si el vértice vecino u no ha sido visitado
                 if not visited[u]:
                     # lo encolamos y lo marcamos como visitado
-                    queue.add_last(u)
+                    stack.add_last(u)
                     visited[u] = True
         return result
 
