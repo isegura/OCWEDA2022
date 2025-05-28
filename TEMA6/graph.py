@@ -197,13 +197,13 @@ class Graph:
         result = []     # lista para el recorrido dfs desde start
         # diccionario para marcar los vértices que ya se han visitado
         visited = dict.fromkeys(self._vertices.keys(), False)
-        stack = []  # lista como pila
         # añadimos start a la pila, y lo marcamos como visitados
-        stack = [start]
+        stack = DList()
+        stack.add_last(start)
         visited[start] = True
         while len(stack) > 0:
             # desapilamos: el último que entroen la pila
-            v = stack.pop()
+            v = stack.remove_last()
             # lo añadimos al recorrido
             result.append(v)
             # recuperamos sus adyacentes
